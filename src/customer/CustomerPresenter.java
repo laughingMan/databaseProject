@@ -1,14 +1,24 @@
 package customer;
 
-import interfaces.IInnerPanelModel;
 import interfaces.IInnerPanelPresenter;
 
 import javax.swing.JPanel;
 
+import movie.MovieModel;
 
 public class CustomerPresenter implements IInnerPanelPresenter {
 
-	public CustomerPresenter(JPanel innerPanelView,	IInnerPanelModel innerPanelModel) {
+	private final MovieModel model;
+	private final CreateCustomerView view;
 
+	public CustomerPresenter() {
+		model = new MovieModel();
+		view = new CreateCustomerView();
+
+	}
+
+	@Override
+	public JPanel getView() {
+		return view;
 	}
 }

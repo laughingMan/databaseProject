@@ -14,6 +14,8 @@ public class CustomerTableModel extends AbstractTableModel {
 	private List<Customer> customers;
 
 	public CustomerTableModel(List<Customer> customers) {
+		this.customers = customers;
+		setCustomers(customers);
 	}
 
 	@Override

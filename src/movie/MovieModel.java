@@ -1,7 +1,6 @@
 package movie;
 
-import interfaces.IInnerPanelModel;
 
-public class MovieModel implements IInnerPanelModel {
+public class MovieModel {
 
 }

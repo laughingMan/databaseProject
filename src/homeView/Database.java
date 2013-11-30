@@ -12,7 +12,7 @@ public class Database extends JFrame {
 		super("Movie Store");
 		MainView mainView = new MainView();
 		DatabaseModel model = new DatabaseModel();
-		new MainController(model, mainView);
+		new MainViewController(model, mainView);
 
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

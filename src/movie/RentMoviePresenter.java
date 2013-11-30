@@ -1,6 +1,6 @@
-package homeView;
+package movie;
 
-import interfaces.IInnerPanelModel;
+import homeView.MainView;
 import interfaces.IInnerPanelPresenter;
 
 import java.awt.event.ActionEvent;
@@ -8,24 +8,31 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
-import movie.RentMovieView;
+import common.OkCancelView;
+
+import customer.CustomerModel;
 import customer.SelectCustomerView;
 
 public class RentMoviePresenter implements IInnerPanelPresenter {
 
 	private final SelectCustomerView selectCustomerView;
 	private final RentMovieView rentMovieView;
-	private final IInnerPanelModel customerModel;
-	private final MainView innerPanelView;
+	private final OkCancelView currentView;
+	private final MainView rootView;
+	private final CustomerModel model;
 
-	public RentMoviePresenter(MainView innerPanelView, JPanel selectCustomerView, RentMovieView rentMovieView, IInnerPanelModel customerModel) {
-		this.innerPanelView = innerPanelView;
-		this.selectCustomerView = (SelectCustomerView) selectCustomerView;
-		this.rentMovieView = rentMovieView;
-		this.customerModel = customerModel;
+	public RentMoviePresenter(MainView innerPanelView) {
+		this.rootView = innerPanelView;
+		this.model = new CustomerModel();
+		this.selectCustomerView = new SelectCustomerView();
+		this.rentMovieView = new RentMovieView();
+		this.currentView = selectCustomerView;
 
+		addListeners();
+	}
+
+	private void addListeners() {
 		this.selectCustomerView.addOkButtonPressedListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				switchToRentMovieView();
@@ -33,7 +40,6 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 		});
 
 		this.rentMovieView.addCancelButtonPressedListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				switchToSelectCustomerView();
@@ -42,10 +48,15 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 	}
 
 	private void switchToRentMovieView() {
-		innerPanelView.setInnerPanel(rentMovieView);
+		rootView.setInnerPanel(rentMovieView);
 	}
 
 	private void switchToSelectCustomerView() {
-		innerPanelView.setInnerPanel(selectCustomerView);
+		rootView.setInnerPanel(selectCustomerView);
+	}
+
+	@Override
+	public JPanel getView() {
+		return currentView;
 	}
 }

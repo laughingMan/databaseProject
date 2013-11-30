@@ -1,20 +1,12 @@
 package customer;
 
-import interfaces.IButtonsPressed;
-import interfaces.IInnerPanelModel;
 import interfaces.ITableChooserListener;
 
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -23,34 +15,20 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import common.CustomerTableModel;
+import common.OkCancelView;
 
-public class SelectCustomerView extends JPanel implements IButtonsPressed {
+public class SelectCustomerView extends OkCancelView {
 	private static final long serialVersionUID = 1L;
 	private JList<Customer> sourceList;
-	private JScrollPane sourceScrollPane;
-	private JButton addButton;
-	private JButton cancelButton;
-	private JTable table;
-	private CustomerTableModel customerTableModel;
+	private final JScrollPane sourceScrollPane;
+	private final JTable table;
+	private final CustomerTableModel customerTableModel;
 	private ITableChooserListener viewListener;
-	private final IInnerPanelModel customerModel;
 
-	public SelectCustomerView(IInnerPanelModel innerPanelModel) {
-		this.customerModel = innerPanelModel;
-		layoutPanel();
-	}
-
-	private void layoutPanel() {
-		setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
-		SpringLayout layout = new SpringLayout();
-		setLayout(layout);
+	public SelectCustomerView() {
 
 		// Title
-		JLabel tileLabel = new JLabel("Select A Customer");
-		tileLabel.setFont(new Font(this.getFont().getFamily(), Font.PLAIN, 30));
-		layout.putConstraint(SpringLayout.WEST, tileLabel, 5, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, tileLabel, 20, SpringLayout.NORTH, this);
-		add(tileLabel);
+		setActionTitleText("Select A Customer");
 
 		// Customer table
 		List<Customer> customers = createCustomers();
@@ -64,7 +42,8 @@ public class SelectCustomerView extends JPanel implements IButtonsPressed {
 		selectionModel.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				// if (!e.getValueIsAdjusting() && sourceList.getSelectedIndex() != -1) {
+				// if (!e.getValueIsAdjusting() && sourceList.getSelectedIndex()
+				// != -1) {
 				// viewListener.listSelectionChanged(customerTableModel.getCustomerForIndices(table.getSelectedRows()));
 				// }
 			}
@@ -75,20 +54,12 @@ public class SelectCustomerView extends JPanel implements IButtonsPressed {
 		sourceScrollPane = new JScrollPane(table);
 		sourceScrollPane.setPreferredSize(new Dimension(500, 300));
 		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, sourceScrollPane, 0, SpringLayout.HORIZONTAL_CENTER, this);
-		layout.putConstraint(SpringLayout.NORTH, sourceScrollPane, 40, SpringLayout.SOUTH, tileLabel);
+		layout.putConstraint(SpringLayout.NORTH, sourceScrollPane, 40, SpringLayout.SOUTH, getActionTitle());
 		add(sourceScrollPane);
 
-		// add button
-		addButton = new JButton("Select");
-		layout.putConstraint(SpringLayout.EAST, addButton, 5, SpringLayout.EAST, this);
-		layout.putConstraint(SpringLayout.SOUTH, addButton, 5, SpringLayout.SOUTH, this);
-		add(addButton);
-
-		// cancel button
-		cancelButton = new JButton("Cancel");
-		layout.putConstraint(SpringLayout.EAST, cancelButton, 5, SpringLayout.WEST, addButton);
-		layout.putConstraint(SpringLayout.SOUTH, cancelButton, 5, SpringLayout.SOUTH, this);
-		add(cancelButton);
+		// buttons
+		setOkButtonLabel("Select");
+		setCancelButtonLabel("Cancel");
 
 		setVisible(true);
 	}
@@ -105,16 +76,6 @@ public class SelectCustomerView extends JPanel implements IButtonsPressed {
 		customers.add(customer3);
 
 		return customers;
-	}
-
-	@Override
-	public void addOkButtonPressedListener(ActionListener listener) {
-		addButton.addActionListener(listener);
-	}
-
-	@Override
-	public void addCancelButtonPressedListener(ActionListener listener) {
-		cancelButton.addActionListener(listener);
 	}
 
 	public void setCustomerList(List<Customer> customers) {

@@ -1,19 +1,16 @@
 package movie;
 
-import interfaces.IButtonsPressed;
-
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
-public class AddMovieView extends JPanel implements IButtonsPressed {
+import common.OkCancelView;
+
+public class AddMovieView extends OkCancelView {
 	private static final long serialVersionUID = 1L;
 
 	private JTextField titleField;
@@ -29,33 +26,26 @@ public class AddMovieView extends JPanel implements IButtonsPressed {
 	}
 
 	private void layoutPanel() {
-		setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
-		SpringLayout layout = new SpringLayout();
-		setLayout(layout);
-
 		JLabel lengthLabel = new JLabel("Length: ");
 		lengthField = new JTextField(25);
 
 		// ----------------- //
 		// ----- Title ----- //
 		// ----------------- //
-		JLabel tileLabel = new JLabel("Add A New Movie");
-		tileLabel.setFont(new Font(this.getFont().getFamily(), Font.PLAIN, 30));
-		layout.putConstraint(SpringLayout.WEST, tileLabel, 5, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, tileLabel, 20, SpringLayout.NORTH, this);
-		add(tileLabel);
+		setActionTitleText("Add A New Movie");
+		JLabel actionTitle = getActionTitle();
 
 		// ---------------------- //
 		// ----- Movie Tile ----- //
 		// ---------------------- //
 		titleField = new JTextField(25);
 		layout.putConstraint(SpringLayout.WEST, titleField, 5, SpringLayout.EAST, lengthLabel);
-		layout.putConstraint(SpringLayout.NORTH, titleField, 40, SpringLayout.SOUTH, tileLabel);
+		layout.putConstraint(SpringLayout.NORTH, titleField, 40, SpringLayout.SOUTH, actionTitle);
 		add(titleField);
 
 		JLabel titleLabel = new JLabel("Tile: ");
 		layout.putConstraint(SpringLayout.EAST, titleLabel, -5, SpringLayout.WEST, titleField);
-		layout.putConstraint(SpringLayout.NORTH, titleLabel, 40, SpringLayout.SOUTH, tileLabel);
+		layout.putConstraint(SpringLayout.NORTH, titleLabel, 40, SpringLayout.SOUTH, actionTitle);
 		add(titleLabel);
 
 		// ----------------- //
@@ -111,15 +101,8 @@ public class AddMovieView extends JPanel implements IButtonsPressed {
 		// ------------------- //
 		// ----- Buttons ----- //
 		// ------------------- //
-		addButton = new JButton("Add");
-		layout.putConstraint(SpringLayout.EAST, addButton, 5, SpringLayout.EAST, this);
-		layout.putConstraint(SpringLayout.SOUTH, addButton, 5, SpringLayout.SOUTH, this);
-		add(addButton);
-
-		cancelButton = new JButton("Cancel");
-		layout.putConstraint(SpringLayout.EAST, cancelButton, 5, SpringLayout.WEST, addButton);
-		layout.putConstraint(SpringLayout.SOUTH, cancelButton, 5, SpringLayout.SOUTH, this);
-		add(cancelButton);
+		setOkButtonLabel("Add");
+		setCancelButtonLabel("Cancel");
 
 		setMinimumSize(new Dimension(300, 200));
 		setVisible(true);

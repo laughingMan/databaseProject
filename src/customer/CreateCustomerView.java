@@ -1,61 +1,42 @@
 package customer;
 
-import interfaces.IButtonsPressed;
-
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
-public class CreateCustomerView extends JPanel implements IButtonsPressed {
+import common.OkCancelView;
+
+public class CreateCustomerView extends OkCancelView {
 	private static final long serialVersionUID = 1L;
 
-	private JTextField firstNameField;
-	private JTextField lastNameField;
-	private JTextField addressField;
-	private JTextField cityField;
-	private JTextField stateField;
-	private JTextField zipCodeField;
-
-	private JButton addButton;
-
-	private JButton cancelButton;
+	private final JTextField firstNameField;
+	private final JTextField lastNameField;
+	private final JTextField addressField;
+	private final JTextField cityField;
+	private final JTextField stateField;
+	private final JTextField zipCodeField;
 
 	public CreateCustomerView() {
-		layoutPanel();
-	}
-
-	private void layoutPanel() {
-		setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
-		SpringLayout layout = new SpringLayout();
-		setLayout(layout);
 
 		// ----------------- //
 		// ----- Title ----- //
 		// ----------------- //
-		JLabel tileLabel = new JLabel("Add A New Customer");
-		tileLabel.setFont(new Font(this.getFont().getFamily(), Font.PLAIN, 30));
-		layout.putConstraint(SpringLayout.WEST, tileLabel, 5, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, tileLabel, 20, SpringLayout.NORTH, this);
-		add(tileLabel);
+		setActionTitleText("Add A New Customer");
+		JLabel actionTitle = getActionTitle();
 
 		// ---------------------- //
 		// ----- First Name ----- //
 		// ---------------------- //
 		JLabel firstNameLabel = new JLabel("First Name: ");
 		layout.putConstraint(SpringLayout.WEST, firstNameLabel, 0, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, firstNameLabel, 40, SpringLayout.SOUTH, tileLabel);
+		layout.putConstraint(SpringLayout.NORTH, firstNameLabel, 40, SpringLayout.SOUTH, actionTitle);
 		add(firstNameLabel);
 
 		firstNameField = new JTextField(25);
 		layout.putConstraint(SpringLayout.WEST, firstNameField, 5, SpringLayout.EAST, firstNameLabel);
-		layout.putConstraint(SpringLayout.NORTH, firstNameField, 40, SpringLayout.SOUTH, tileLabel);
+		layout.putConstraint(SpringLayout.NORTH, firstNameField, 40, SpringLayout.SOUTH, actionTitle);
 		add(firstNameField);
 
 		// --------------------- //
@@ -63,12 +44,12 @@ public class CreateCustomerView extends JPanel implements IButtonsPressed {
 		// --------------------- //
 		JLabel lastNameLabel = new JLabel("Last Name: ");
 		layout.putConstraint(SpringLayout.WEST, lastNameLabel, 5, SpringLayout.EAST, firstNameField);
-		layout.putConstraint(SpringLayout.NORTH, lastNameLabel, 40, SpringLayout.SOUTH, tileLabel);
+		layout.putConstraint(SpringLayout.NORTH, lastNameLabel, 40, SpringLayout.SOUTH, actionTitle);
 		add(lastNameLabel);
 
 		lastNameField = new JTextField(25);
 		layout.putConstraint(SpringLayout.WEST, lastNameField, 3, SpringLayout.EAST, lastNameLabel);
-		layout.putConstraint(SpringLayout.NORTH, lastNameField, 40, SpringLayout.SOUTH, tileLabel);
+		layout.putConstraint(SpringLayout.NORTH, lastNameField, 40, SpringLayout.SOUTH, actionTitle);
 		add(lastNameField);
 
 		// ------------------- //
@@ -126,27 +107,10 @@ public class CreateCustomerView extends JPanel implements IButtonsPressed {
 		// ------------------- //
 		// ----- Buttons ----- //
 		// ------------------- //
-		addButton = new JButton("Add");
-		layout.putConstraint(SpringLayout.EAST, addButton, 5, SpringLayout.EAST, this);
-		layout.putConstraint(SpringLayout.SOUTH, addButton, 5, SpringLayout.SOUTH, this);
-		add(addButton);
-
-		cancelButton = new JButton("Cancel");
-		layout.putConstraint(SpringLayout.EAST, cancelButton, 5, SpringLayout.WEST, addButton);
-		layout.putConstraint(SpringLayout.SOUTH, cancelButton, 5, SpringLayout.SOUTH, this);
-		add(cancelButton);
+		setOkButtonLabel("Add");
+		setCancelButtonLabel("Cancel");
 
 		setMinimumSize(new Dimension(300, 200));
 		setVisible(true);
-	}
-
-	@Override
-	public void addOkButtonPressedListener(ActionListener listener) {
-		addButton.addActionListener(listener);
-	}
-
-	@Override
-	public void addCancelButtonPressedListener(ActionListener listener) {
-		cancelButton.addActionListener(listener);
 	}
 }
