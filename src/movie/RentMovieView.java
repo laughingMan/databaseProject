@@ -54,7 +54,7 @@ public class RentMovieView extends OkCancelView {
 		JLabel customerInfoTitle = new JLabel(CUSTOMER_INFO_TITLE);
 		customerInfoTitle.setFont(new Font(this.getFont().getFamily(), Font.PLAIN, 16));
 		layout.putConstraint(SpringLayout.WEST, customerInfoTitle, 5, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, customerInfoTitle, 20, SpringLayout.SOUTH, actionTitle);
+		layout.putConstraint(SpringLayout.NORTH, customerInfoTitle, 75, SpringLayout.SOUTH, actionTitle);
 		add(customerInfoTitle);
 
 		nameLabel = new JLabel();
@@ -95,7 +95,7 @@ public class RentMovieView extends OkCancelView {
 
 		removeButton = new JButton(REMOVE_BUTTON_LABEL);
 		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, removeButton, 400, SpringLayout.EAST, customerInfoTitle);
-		layout.putConstraint(SpringLayout.NORTH, removeButton, 225, SpringLayout.NORTH, this);
+		layout.putConstraint(SpringLayout.NORTH, removeButton, 250, SpringLayout.NORTH, actionTitle);
 		add(removeButton);
 		removeButton.addActionListener(new ActionListener() {
 			@Override
@@ -118,13 +118,13 @@ public class RentMovieView extends OkCancelView {
 		sourceScrollPane = new JScrollPane(sourceList);
 		sourceScrollPane.setPreferredSize(new Dimension(200, 300));
 		layout.putConstraint(SpringLayout.EAST, sourceScrollPane, -5, SpringLayout.WEST, removeButton);
-		layout.putConstraint(SpringLayout.NORTH, sourceScrollPane, -115, SpringLayout.NORTH, removeButton);
+		layout.putConstraint(SpringLayout.NORTH, sourceScrollPane, -150, SpringLayout.NORTH, removeButton);
 		add(sourceScrollPane);
 
 		destScrollPane = new JScrollPane(destList);
 		destScrollPane.setPreferredSize(new Dimension(200, 300));
 		layout.putConstraint(SpringLayout.WEST, destScrollPane, 5, SpringLayout.EAST, removeButton);
-		layout.putConstraint(SpringLayout.NORTH, destScrollPane, -115, SpringLayout.NORTH, removeButton);
+		layout.putConstraint(SpringLayout.NORTH, destScrollPane, -150, SpringLayout.NORTH, removeButton);
 		add(destScrollPane);
 
 		sourceLabel = new JLabel(DEFAULT_SOURCE_CHOICE_LABEL);
