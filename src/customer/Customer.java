@@ -1,6 +1,8 @@
 package customer;
 
-public class Customer {
+import common.Item;
+
+public class Customer implements Item {
 	private String firstName;
 	private String lastName;
 	private int addressID;
@@ -73,5 +75,15 @@ public class Customer {
 
 	public void setMemebershipID(int memebershipID) {
 		this.memebershipID = memebershipID;
+	}
+
+	@Override
+	public String getName() {
+		return getFirstName() + " " + getLastName();
+	}
+
+	@Override
+	public String getID() {
+		return Integer.toString(getAccountID());
 	}
 }

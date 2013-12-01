@@ -2,10 +2,10 @@ package interfaces;
 
 import java.util.List;
 
-import customer.Customer;
+import common.Item;
 
 public interface ITableChooserListener {
 
-	void listSelectionChanged(List<Customer> selectedValue);
+	void listSelectionChanged(List<Item> list);
 
 }

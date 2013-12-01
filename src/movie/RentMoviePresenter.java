@@ -10,7 +10,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import common.Item;
 import common.OkCancelView;
+import common.SelectItemView;
 
 import customer.Customer;
 import customer.CustomerModel;
@@ -18,12 +20,14 @@ import customer.SelectCustomerView;
 
 public class RentMoviePresenter implements IInnerPanelPresenter {
 
-	private final SelectCustomerView selectCustomerView;
+	private final SelectItemView selectCustomerView;
 	private final RentMovieView rentMovieView;
 	private final OkCancelView currentView;
 	private final MainView rootView;
 	private final CustomerModel model;
 	private Customer selectedCustomer;
+
+	private static final String RENT_MOVIE_ACTION_TITLE = "Rent Movie";
 
 	public RentMoviePresenter(MainView innerPanelView) {
 		this.rootView = innerPanelView;
@@ -33,15 +37,7 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 		this.currentView = selectCustomerView;
 
 		addListeners();
-		this.selectCustomerView.setViewListener(new ITableChooserListener() {
-
-			@Override
-			public void listSelectionChanged(List<Customer> selectedValue) {
-				selectedCustomer = selectedValue.get(0);
-				selectCustomerView.enableOkButton(selectedValue.size() > 0);
-			}
-		});
-
+		this.selectCustomerView.setActionTitleText(RENT_MOVIE_ACTION_TITLE);
 	}
 
 	private String getAddressForID(int addressID) {
@@ -61,6 +57,13 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				switchToSelectCustomerView();
+			}
+		});
+		this.selectCustomerView.setViewListener(new ITableChooserListener() {
+			@Override
+			public void listSelectionChanged(List<Item> selectedValue) {
+				selectedCustomer = (Customer) selectedValue.get(0);
+				selectCustomerView.enableOkButton(selectedValue.size() > 0);
 			}
 		});
 	}

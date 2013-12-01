@@ -4,12 +4,12 @@ import interfaces.IInnerPanelPresenter;
 
 import javax.swing.JPanel;
 
-public class CustomerPresenter implements IInnerPanelPresenter {
+public class AddCustomerPresenter implements IInnerPanelPresenter {
 
 	private final CustomerModel model;
 	private final CreateCustomerView view;
 
-	public CustomerPresenter() {
+	public AddCustomerPresenter() {
 		model = new CustomerModel();
 		view = new CreateCustomerView();
 

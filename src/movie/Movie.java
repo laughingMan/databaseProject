@@ -1,6 +1,8 @@
 package movie;
 
-public class Movie {
+import common.Item;
+
+public class Movie implements Item {
 
 	private final int genreID;
 	private final int length;
@@ -43,5 +45,15 @@ public class Movie {
 
 	public String getFormat() {
 		return format;
+	}
+
+	@Override
+	public String getName() {
+		return getTitle();
+	}
+
+	@Override
+	public String getID() {
+		return Integer.toString(getMovieID());
 	}
 }

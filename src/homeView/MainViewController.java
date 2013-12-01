@@ -2,11 +2,15 @@ package homeView;
 
 import interfaces.IInnerPanelPresenter;
 import interfaces.ISelectActionViewListener;
+import movie.AddMovePresenter;
+import movie.EditMovePresenter;
 import movie.RentMoviePresenter;
+import movie.ReturnMoviePresenter;
 
 import common.RemoveItemPresenter;
 
-import customer.CustomerPresenter;
+import customer.AddCustomerPresenter;
+import customer.EditCustomerPresenter;
 
 public class MainViewController {
 	private final MainView view;
@@ -25,21 +29,21 @@ public class MainViewController {
 			@Override
 			public void setSelectedType(String selectedItem) {
 				if (selectedItem.equals("Create User")) {
-					innerPanelPresenter = new CustomerPresenter();
+					innerPanelPresenter = new AddCustomerPresenter();
 				} else if (selectedItem.equals("Edit User")) {
-					innerPanelPresenter = new CustomerPresenter();
+					innerPanelPresenter = new EditCustomerPresenter();
 				} else if (selectedItem.equals("Remove User")) {
 					innerPanelPresenter = new RemoveItemPresenter();
 				} else if (selectedItem.equals("Add Movie")) {
-					innerPanelPresenter = new CustomerPresenter();
+					innerPanelPresenter = new AddMovePresenter();
 				} else if (selectedItem.equals("Edit Movie")) {
-					innerPanelPresenter = new CustomerPresenter();
+					innerPanelPresenter = new EditMovePresenter();
 				} else if (selectedItem.equals("Remove Movie")) {
 					innerPanelPresenter = new RemoveItemPresenter();
 				} else if (selectedItem.equals("Rent Movie")) {
 					innerPanelPresenter = new RentMoviePresenter(view);
 				} else if (selectedItem.equals("Return Movie")) {
-					innerPanelPresenter = new RentMoviePresenter(view);
+					innerPanelPresenter = new ReturnMoviePresenter(view);
 				} else {
 					innerPanelPresenter = new RentMoviePresenter(view);
 				}

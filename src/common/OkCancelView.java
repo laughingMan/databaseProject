@@ -29,32 +29,32 @@ public class OkCancelView extends JPanel {
 		tile = new JLabel();
 		tile.setFont(new Font(this.getFont().getFamily(), Font.PLAIN, 30));
 		layout.putConstraint(SpringLayout.WEST, tile, 5, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, tile, 20, SpringLayout.NORTH, this);
+		layout.putConstraint(SpringLayout.NORTH, tile, 10, SpringLayout.NORTH, this);
 		add(tile);
 
 		// add button
 		okButton = new JButton("Select");
 		layout.putConstraint(SpringLayout.EAST, okButton, 5, SpringLayout.EAST, this);
 		layout.putConstraint(SpringLayout.SOUTH, okButton, 5, SpringLayout.SOUTH, this);
+		add(okButton);
 		okButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				viewListener.okButtonPressed();
 			}
 		});
-		add(okButton);
 
 		// cancel button
 		cancelButton = new JButton();
 		layout.putConstraint(SpringLayout.EAST, cancelButton, 5, SpringLayout.WEST, okButton);
 		layout.putConstraint(SpringLayout.SOUTH, cancelButton, 5, SpringLayout.SOUTH, this);
+		add(cancelButton);
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				viewListener.cancelButtonPressed();
 			}
 		});
-		add(cancelButton);
 	}
 
 	public void setActionTitleText(String text) {

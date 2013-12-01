@@ -18,12 +18,16 @@ public class CreateCustomerView extends OkCancelView {
 	private final JTextField stateField;
 	private final JTextField zipCodeField;
 
+	private static final String CREATE_CUSTOMER_TITLE = "Add A New Customer";
+	private static final String CREATE_CUSTOMER_OK_BUTTON = "Add";
+	private static final String CREATE_CUSTOMER_CANCEL_BUTTON = "Cancel";
+
 	public CreateCustomerView() {
 
 		// ----------------- //
 		// ----- Title ----- //
 		// ----------------- //
-		setActionTitleText("Add A New Customer");
+		setActionTitleText(CREATE_CUSTOMER_TITLE);
 		JLabel actionTitle = getActionTitle();
 
 		// ---------------------- //
@@ -107,8 +111,8 @@ public class CreateCustomerView extends OkCancelView {
 		// ------------------- //
 		// ----- Buttons ----- //
 		// ------------------- //
-		setOkButtonLabel("Add");
-		setCancelButtonLabel("Cancel");
+		setOkButtonLabel(CREATE_CUSTOMER_OK_BUTTON);
+		setCancelButtonLabel(CREATE_CUSTOMER_CANCEL_BUTTON);
 
 		setMinimumSize(new Dimension(300, 200));
 		setVisible(true);
