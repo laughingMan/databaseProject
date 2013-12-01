@@ -26,11 +26,11 @@ public class MainViewController {
 
 			@Override
 			public void setSelectedType(String selectedItem) {
-				if (selectedItem.equals("Create User")) {
+				if (selectedItem.equals("Create Customer")) {
 					innerPanelPresenter = new AddCustomerPresenter();
-				} else if (selectedItem.equals("Edit User")) {
+				} else if (selectedItem.equals("Edit Customer")) {
 					innerPanelPresenter = new EditCustomerPresenter();
-				} else if (selectedItem.equals("Remove User")) {
+				} else if (selectedItem.equals("Remove Customer")) {
 					innerPanelPresenter = new RemoveItemPresenter();
 				} else if (selectedItem.equals("Add Movie")) {
 					innerPanelPresenter = new AddMovePresenter();

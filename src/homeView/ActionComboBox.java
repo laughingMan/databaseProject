@@ -10,7 +10,8 @@ import javax.swing.JComboBox;
 public class ActionComboBox extends JComboBox<String> {
 	private static final long serialVersionUID = 1L;
 	private ISelectActionViewListener viewListener;
-	private final static String[] actionDropDownOptions = { "Create User", "Edit User", "Remove User", "Add Movie", "Edit Movie", "Remove Movie", "Rent Movie" };
+	private final static String[] actionDropDownOptions = { "Select an action...", "Create Customer", "Edit Customer", "Remove Customer", "Add Movie",
+			"Edit Movie", "Remove Movie", "Rent Movie" };
 
 	public ActionComboBox() {
 		super(actionDropDownOptions);
