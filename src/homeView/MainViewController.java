@@ -16,11 +16,9 @@ public class MainViewController {
 	private final MainView view;
 	private IInnerPanelPresenter innerPanelPresenter;
 
-	public MainViewController(final DatabaseModel model, final MainView view) {
-
-		this.view = view;
+	public MainViewController() {
+		this.view = new MainView();
 		view.setViewListener(new ISelectActionViewListener() {
-
 			@Override
 			public void setViewListener(ISelectActionViewListener viewListener) {
 
@@ -57,6 +55,10 @@ public class MainViewController {
 
 	private void refreshView() {
 		view.setInnerPanel(innerPanelPresenter.getView());
+	}
+
+	public MainView getView() {
+		return view;
 	}
 
 }

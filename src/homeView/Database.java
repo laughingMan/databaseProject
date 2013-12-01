@@ -10,15 +10,13 @@ public class Database extends JFrame {
 
 	public Database() {
 		super("Movie Store");
-		MainView mainView = new MainView();
-		DatabaseModel model = new DatabaseModel();
-		new MainViewController(model, mainView);
+		MainViewController mainViewController = new MainViewController();
 
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setMinimumSize(new Dimension(830, 600));
 		setLocationRelativeTo(null);
-		add(mainView);
+		add(mainViewController.getView());
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
