@@ -42,10 +42,9 @@ public class SelectCustomerView extends OkCancelView {
 		selectionModel.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				// if (!e.getValueIsAdjusting() && sourceList.getSelectedIndex()
-				// != -1) {
-				// viewListener.listSelectionChanged(customerTableModel.getCustomerForIndices(table.getSelectedRows()));
-				// }
+				if (!e.getValueIsAdjusting() && sourceList.getSelectedIndex() != -1) {
+					viewListener.listSelectionChanged(customerTableModel.getCustomerForIndices(table.getSelectedRows()));
+				}
 			}
 		});
 		table.setSelectionModel(selectionModel);

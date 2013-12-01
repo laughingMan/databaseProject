@@ -4,15 +4,13 @@ import interfaces.IInnerPanelPresenter;
 
 import javax.swing.JPanel;
 
-import movie.MovieModel;
-
 public class CustomerPresenter implements IInnerPanelPresenter {
 
-	private final MovieModel model;
+	private final CustomerModel model;
 	private final CreateCustomerView view;
 
 	public CustomerPresenter() {
-		model = new MovieModel();
+		model = new CustomerModel();
 		view = new CreateCustomerView();
 
 	}

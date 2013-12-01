@@ -41,7 +41,7 @@ public class MainViewController {
 				} else if (selectedItem.equals("Return Movie")) {
 					innerPanelPresenter = new RentMoviePresenter(view);
 				} else {
-					innerPanelPresenter = new HomeViewPresenter();
+					innerPanelPresenter = new RentMoviePresenter(view);
 				}
 				refreshView();
 			}
