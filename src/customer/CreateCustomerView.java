@@ -18,9 +18,11 @@ public class CreateCustomerView extends OkCancelView {
 	private final JTextField stateField;
 	private final JTextField zipCodeField;
 
+	private final JTextField phoneField;
+
 	private static final String CREATE_CUSTOMER_TITLE = "Add A New Customer";
 	private static final String CREATE_CUSTOMER_OK_BUTTON = "Add";
-	private static final String CREATE_CUSTOMER_CANCEL_BUTTON = "Cancel";
+	private static final String CREATE_CUSTOMER_CANCEL_BUTTON = "Clear";
 
 	public CreateCustomerView() {
 
@@ -35,7 +37,7 @@ public class CreateCustomerView extends OkCancelView {
 		// ---------------------- //
 		JLabel firstNameLabel = new JLabel("First Name: ");
 		layout.putConstraint(SpringLayout.WEST, firstNameLabel, 0, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, firstNameLabel, 40, SpringLayout.SOUTH, actionTitle);
+		layout.putConstraint(SpringLayout.NORTH, firstNameLabel, 45, SpringLayout.SOUTH, actionTitle);
 		add(firstNameLabel);
 
 		firstNameField = new JTextField(25);
@@ -48,12 +50,12 @@ public class CreateCustomerView extends OkCancelView {
 		// --------------------- //
 		JLabel lastNameLabel = new JLabel("Last Name: ");
 		layout.putConstraint(SpringLayout.WEST, lastNameLabel, 5, SpringLayout.EAST, firstNameField);
-		layout.putConstraint(SpringLayout.NORTH, lastNameLabel, 40, SpringLayout.SOUTH, actionTitle);
+		layout.putConstraint(SpringLayout.NORTH, lastNameLabel, 5, SpringLayout.NORTH, firstNameField);
 		add(lastNameLabel);
 
 		lastNameField = new JTextField(25);
 		layout.putConstraint(SpringLayout.WEST, lastNameField, 3, SpringLayout.EAST, lastNameLabel);
-		layout.putConstraint(SpringLayout.NORTH, lastNameField, 40, SpringLayout.SOUTH, actionTitle);
+		layout.putConstraint(SpringLayout.NORTH, lastNameField, 0, SpringLayout.NORTH, firstNameField);
 		add(lastNameField);
 
 		// ------------------- //
@@ -66,7 +68,7 @@ public class CreateCustomerView extends OkCancelView {
 
 		JLabel addressLabel = new JLabel("Address: ");
 		layout.putConstraint(SpringLayout.EAST, addressLabel, -5, SpringLayout.WEST, addressField);
-		layout.putConstraint(SpringLayout.NORTH, addressLabel, 5, SpringLayout.SOUTH, firstNameField);
+		layout.putConstraint(SpringLayout.NORTH, addressLabel, 5, SpringLayout.NORTH, addressField);
 		add(addressLabel);
 
 		// ---------------- //
@@ -79,7 +81,7 @@ public class CreateCustomerView extends OkCancelView {
 
 		JLabel cityLabel = new JLabel("City: ");
 		layout.putConstraint(SpringLayout.EAST, cityLabel, -5, SpringLayout.WEST, cityField);
-		layout.putConstraint(SpringLayout.NORTH, cityLabel, 5, SpringLayout.SOUTH, addressField);
+		layout.putConstraint(SpringLayout.NORTH, cityLabel, 5, SpringLayout.NORTH, cityField);
 		add(cityLabel);
 
 		// ----------------- //
@@ -87,7 +89,7 @@ public class CreateCustomerView extends OkCancelView {
 		// ----------------- //
 		JLabel stateLabel = new JLabel("State: ");
 		layout.putConstraint(SpringLayout.WEST, stateLabel, 11, SpringLayout.EAST, cityField);
-		layout.putConstraint(SpringLayout.NORTH, stateLabel, 5, SpringLayout.SOUTH, addressField);
+		layout.putConstraint(SpringLayout.NORTH, stateLabel, 5, SpringLayout.NORTH, cityField);
 		add(stateLabel);
 
 		stateField = new JTextField(2);
@@ -100,13 +102,26 @@ public class CreateCustomerView extends OkCancelView {
 		// -------------------- //
 		JLabel zipCodeLabel = new JLabel("Zip Code: ");
 		layout.putConstraint(SpringLayout.WEST, zipCodeLabel, 11, SpringLayout.EAST, stateField);
-		layout.putConstraint(SpringLayout.NORTH, zipCodeLabel, 5, SpringLayout.SOUTH, addressField);
+		layout.putConstraint(SpringLayout.NORTH, zipCodeLabel, 5, SpringLayout.NORTH, stateField);
 		add(zipCodeLabel);
 
 		zipCodeField = new JTextField(5);
 		layout.putConstraint(SpringLayout.WEST, zipCodeField, 5, SpringLayout.EAST, zipCodeLabel);
 		layout.putConstraint(SpringLayout.NORTH, zipCodeField, 5, SpringLayout.SOUTH, addressField);
 		add(zipCodeField);
+
+		// ------------------------ //
+		// ----- Phone Number ----- //
+		// ------------------------ //
+		phoneField = new JTextField(10);
+		layout.putConstraint(SpringLayout.WEST, phoneField, 5, SpringLayout.EAST, firstNameLabel);
+		layout.putConstraint(SpringLayout.NORTH, phoneField, 5, SpringLayout.SOUTH, cityField);
+		add(phoneField);
+
+		JLabel phoneLabel = new JLabel("Phone #: ");
+		layout.putConstraint(SpringLayout.EAST, phoneLabel, -5, SpringLayout.WEST, addressField);
+		layout.putConstraint(SpringLayout.NORTH, phoneLabel, 5, SpringLayout.NORTH, phoneField);
+		add(phoneLabel);
 
 		// ------------------- //
 		// ----- Buttons ----- //
@@ -116,5 +131,12 @@ public class CreateCustomerView extends OkCancelView {
 
 		setMinimumSize(new Dimension(300, 200));
 		setVisible(true);
+	}
+
+	public void setCustomer(String firstName, String lastName, String address, String phoneNumber, String accountID, String memebershipID) {
+		firstNameField.setText(firstName);
+		lastNameField.setText(lastName);
+		addressField.setText(address);
+
 	}
 }
