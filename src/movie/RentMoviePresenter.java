@@ -76,12 +76,11 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 	private void setCustomer() {
 		String name = selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName();
 		String address = getAddressForID(selectedCustomer.getAddressID());
-		String customerID = Integer.toString(selectedCustomer.getCustomerID());
 		String phoneNumber = selectedCustomer.getPhoneNumber();
 		String accountID = Integer.toString(selectedCustomer.getAccountID());
 		String memebershipID = Integer.toString(selectedCustomer.getMemebershipID());
 
-		rentMovieView.setCustomer(name, address, phoneNumber, customerID, accountID, memebershipID);
+		rentMovieView.setCustomer(name, address, phoneNumber, accountID, memebershipID);
 	}
 
 	private void switchToSelectCustomerView() {

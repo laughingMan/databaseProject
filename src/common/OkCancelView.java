@@ -85,6 +85,10 @@ public class OkCancelView extends JPanel {
 		okButton.setEnabled(isEnabled);
 	}
 
+	public void hideCancelButton(boolean isHidden) {
+		cancelButton.setVisible(!isHidden);
+	}
+
 	public void setViewListener(IOkCancelButtonsListener viewListener) {
 		this.viewListener = viewListener;
 	}

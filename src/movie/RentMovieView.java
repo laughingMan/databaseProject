@@ -1,5 +1,6 @@
 package movie;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,14 +23,13 @@ public class RentMovieView extends OkCancelView {
 	private final JLabel nameLabel;
 	private final JLabel phoneNumberLabel;
 	private final JLabel addressLabel;
-	private final JLabel customerIDLabel;
 	private final JLabel accountLabel;
 	private final JLabel membershipLabel;
 	private final JLabel sourceLabel;
 	private final JList<Item> sourceList;
 	private final JScrollPane sourceScrollPane;
 	private final JLabel destLabel;
-	private final JList<Item> destTable;
+	private final JList<Item> destList;
 	private final JScrollPane destScrollPane;
 	private final JButton addButton;
 	private final JButton removeButton;
@@ -40,66 +40,73 @@ public class RentMovieView extends OkCancelView {
 	private static final String DEFAULT_SOURCE_CHOICE_LABEL = "Available";
 	private static final String DEFAULT_DEST_CHOICE_LABEL = "Chosen";
 	private static final String CUSTOMER_INFO_TITLE = "Customer Info";
+	private static final String RENT_MOVIE_OK_BUTTON = "Rent";
+	private static final String RENT_MOVIE_CANCEL_BUTTON = "Back";
+	private static final String RENT_MOVIE_TITLE = "Rent Movie";
 
 	public RentMovieView() {
 
-		String RENT_MOVIE_TITLE = "Rent Movie";
-		JLabel actionTitle = getActionTitle();
 		setActionTitleText(RENT_MOVIE_TITLE);
+		JLabel actionTitle = getActionTitle();
 		layout.putConstraint(SpringLayout.WEST, actionTitle, 5, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, actionTitle, 5, SpringLayout.NORTH, this);
 
 		JLabel customerInfoTitle = new JLabel(CUSTOMER_INFO_TITLE);
-		actionTitle.setFont(new Font(this.getFont().getFamily(), Font.PLAIN, 16));
+		customerInfoTitle.setFont(new Font(this.getFont().getFamily(), Font.PLAIN, 16));
 		layout.putConstraint(SpringLayout.WEST, customerInfoTitle, 5, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, customerInfoTitle, 20, SpringLayout.SOUTH, actionTitle);
+		add(customerInfoTitle);
 
-		this.nameLabel = new JLabel();
-		add(this.nameLabel);
+		nameLabel = new JLabel();
+		layout.putConstraint(SpringLayout.WEST, nameLabel, 5, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, nameLabel, 10, SpringLayout.SOUTH, customerInfoTitle);
+		add(nameLabel);
 
-		this.addressLabel = new JLabel();
-		add(this.addressLabel);
+		addressLabel = new JLabel();
+		layout.putConstraint(SpringLayout.WEST, addressLabel, 5, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, addressLabel, 5, SpringLayout.SOUTH, nameLabel);
+		add(addressLabel);
 
-		this.phoneNumberLabel = new JLabel();
-		add(this.phoneNumberLabel);
+		phoneNumberLabel = new JLabel();
+		layout.putConstraint(SpringLayout.WEST, phoneNumberLabel, 5, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, phoneNumberLabel, 5, SpringLayout.SOUTH, addressLabel);
+		add(phoneNumberLabel);
 
-		this.customerIDLabel = new JLabel();
-		add(this.customerIDLabel);
+		accountLabel = new JLabel();
+		layout.putConstraint(SpringLayout.WEST, accountLabel, 5, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, accountLabel, 5, SpringLayout.SOUTH, phoneNumberLabel);
+		add(accountLabel);
 
-		this.accountLabel = new JLabel();
-		add(this.accountLabel);
+		membershipLabel = new JLabel();
+		layout.putConstraint(SpringLayout.WEST, membershipLabel, 5, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, membershipLabel, 5, SpringLayout.SOUTH, accountLabel);
+		add(membershipLabel);
 
-		this.membershipLabel = new JLabel();
-		add(this.membershipLabel);
-
-		sourceLabel = new JLabel(DEFAULT_SOURCE_CHOICE_LABEL);
-		add(sourceLabel);
-
+		destList = new JList<Item>();
 		sourceList = new JList<Item>();
 		sourceList.addListSelectionListener(new ListSelectionListener() {
-
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting() && sourceList.getSelectedIndex() != -1) {
-					viewListener.listSelectionChanged(sourceList.getSelectedValuesList(), destTable.getSelectedValuesList());
+					viewListener.listSelectionChanged(sourceList.getSelectedValuesList(), destList.getSelectedValuesList());
 				}
 			}
 		});
 
-		sourceScrollPane = new JScrollPane(sourceList);
-		add(sourceScrollPane);
-
-		destLabel = new JLabel(DEFAULT_DEST_CHOICE_LABEL);
-		destLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		add(sourceLabel);
-
-		destTable = new JList<Item>();
-		add(destLabel);
-
-		destScrollPane = new JScrollPane(destTable);
-		add(destScrollPane);
+		removeButton = new JButton(REMOVE_BUTTON_LABEL);
+		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, removeButton, 400, SpringLayout.EAST, customerInfoTitle);
+		layout.putConstraint(SpringLayout.NORTH, removeButton, 225, SpringLayout.NORTH, this);
+		add(removeButton);
+		removeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionevent) {
+				viewListener.removeItems(destList.getSelectedValuesList());
+			}
+		});
 
 		addButton = new JButton(ADD_BUTTON_LABEL);
+		layout.putConstraint(SpringLayout.WEST, addButton, 10, SpringLayout.WEST, removeButton);
+		layout.putConstraint(SpringLayout.SOUTH, addButton, -10, SpringLayout.NORTH, removeButton);
 		add(addButton);
 		addButton.addActionListener(new ActionListener() {
 			@Override
@@ -108,16 +115,30 @@ public class RentMovieView extends OkCancelView {
 			}
 		});
 
-		removeButton = new JButton(REMOVE_BUTTON_LABEL);
-		add(removeButton);
-		removeButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent actionevent) {
-				viewListener.removeItems(destTable.getSelectedValuesList());
-			}
-		});
+		sourceScrollPane = new JScrollPane(sourceList);
+		sourceScrollPane.setPreferredSize(new Dimension(200, 300));
+		layout.putConstraint(SpringLayout.EAST, sourceScrollPane, -5, SpringLayout.WEST, removeButton);
+		layout.putConstraint(SpringLayout.NORTH, sourceScrollPane, -115, SpringLayout.NORTH, removeButton);
+		add(sourceScrollPane);
 
-		setOkButtonLabel("Rent");
+		destScrollPane = new JScrollPane(destList);
+		destScrollPane.setPreferredSize(new Dimension(200, 300));
+		layout.putConstraint(SpringLayout.WEST, destScrollPane, 5, SpringLayout.EAST, removeButton);
+		layout.putConstraint(SpringLayout.NORTH, destScrollPane, -115, SpringLayout.NORTH, removeButton);
+		add(destScrollPane);
+
+		sourceLabel = new JLabel(DEFAULT_SOURCE_CHOICE_LABEL);
+		layout.putConstraint(SpringLayout.WEST, sourceLabel, 0, SpringLayout.WEST, sourceScrollPane);
+		layout.putConstraint(SpringLayout.SOUTH, sourceLabel, -5, SpringLayout.NORTH, sourceScrollPane);
+		add(sourceLabel);
+
+		destLabel = new JLabel(DEFAULT_DEST_CHOICE_LABEL);
+		layout.putConstraint(SpringLayout.WEST, destLabel, 0, SpringLayout.WEST, destScrollPane);
+		layout.putConstraint(SpringLayout.SOUTH, destLabel, -5, SpringLayout.NORTH, destScrollPane);
+		destLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		add(destLabel);
+
+		setOkButtonLabel(RENT_MOVIE_OK_BUTTON);
 		addOkButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -125,7 +146,7 @@ public class RentMovieView extends OkCancelView {
 			}
 		});
 
-		setCancelButtonLabel("Back");
+		setCancelButtonLabel(RENT_MOVIE_CANCEL_BUTTON);
 		addCancelButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -134,53 +155,15 @@ public class RentMovieView extends OkCancelView {
 		});
 	}
 
-	public void setCustomer(String name, String address, String phoneNumber, String customerID, String accountID, String membershipID) {
-
+	public void setCustomer(String name, String address, String phoneNumber, String accountID, String membershipID) {
+		nameLabel.setText(name);
+		addressLabel.setText(address);
+		phoneNumberLabel.setText(phoneNumber);
+		accountLabel.setText("Acct #: " + accountID);
+		membershipLabel.setText("Acct Type: " + membershipID);
 	}
 
 	public void addViewListener(RentMovieViewListener viewListener) {
 		this.viewListener = viewListener;
-	}
-
-	private void performLayout() {
-		int width = getWidth();
-		int height = getHeight();
-		int verticalMargin = 20;
-		int horizontalMargin = 7;
-		int labelHeight = 14;
-		int middleWidth = 100;
-		int sideWidth = (width - middleWidth) / 2 - horizontalMargin;
-
-		int offset = verticalMargin;
-		sourceLabel.setLocation(horizontalMargin, offset);
-		sourceLabel.setSize(sideWidth, labelHeight);
-
-		int middleInset = horizontalMargin + sideWidth;
-
-		int rightInset = middleInset + middleWidth;
-		destLabel.setLocation(rightInset, offset);
-		destLabel.setSize(sideWidth, labelHeight);
-		offset += labelHeight + horizontalMargin;
-
-		int listHeight = height - offset - horizontalMargin;
-		sourceScrollPane.setLocation(horizontalMargin, offset);
-		sourceScrollPane.setSize(sideWidth, listHeight);
-		sourceScrollPane.validate();
-
-		destScrollPane.setLocation(rightInset, offset);
-		destScrollPane.setSize(sideWidth, listHeight);
-		destScrollPane.validate();
-
-		int buttonHeight = 22;
-		offset += (listHeight - (2 * buttonHeight + verticalMargin)) / 2;
-		int buttonWidth = middleWidth - 2 * horizontalMargin;
-		int buttonInset = middleInset + horizontalMargin;
-
-		addButton.setLocation(buttonInset, offset);
-		addButton.setSize(buttonWidth, buttonHeight);
-		offset += buttonHeight + verticalMargin;
-
-		removeButton.setLocation(buttonInset, offset);
-		removeButton.setSize(buttonWidth, buttonHeight);
 	}
 }

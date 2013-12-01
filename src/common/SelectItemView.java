@@ -57,6 +57,9 @@ public class SelectItemView extends OkCancelView {
 		layout.putConstraint(SpringLayout.SOUTH, tableLabel, -5, SpringLayout.NORTH, sourceScrollPane);
 		add(tableLabel);
 
+		enableOkButton(false);
+		hideCancelButton(true);
+
 		setVisible(true);
 	}
 
