@@ -17,24 +17,14 @@ public class CreateCustomerView extends OkCancelView {
 	private final JTextField cityField;
 	private final JTextField stateField;
 	private final JTextField zipCodeField;
-
 	private final JTextField phoneField;
 
-	private static final String CREATE_CUSTOMER_TITLE = "Add A New Customer";
-	private static final String CREATE_CUSTOMER_OK_BUTTON = "Add";
-	private static final String CREATE_CUSTOMER_CANCEL_BUTTON = "Clear";
-
 	public CreateCustomerView() {
-
-		// ----------------- //
-		// ----- Title ----- //
-		// ----------------- //
-		setActionTitleText(CREATE_CUSTOMER_TITLE);
-		JLabel actionTitle = getActionTitle();
 
 		// ---------------------- //
 		// ----- First Name ----- //
 		// ---------------------- //
+		JLabel actionTitle = getActionTitle();
 		JLabel firstNameLabel = new JLabel("First Name: ");
 		layout.putConstraint(SpringLayout.WEST, firstNameLabel, 0, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, firstNameLabel, 45, SpringLayout.SOUTH, actionTitle);
@@ -123,20 +113,27 @@ public class CreateCustomerView extends OkCancelView {
 		layout.putConstraint(SpringLayout.NORTH, phoneLabel, 5, SpringLayout.NORTH, phoneField);
 		add(phoneLabel);
 
-		// ------------------- //
-		// ----- Buttons ----- //
-		// ------------------- //
-		setOkButtonLabel(CREATE_CUSTOMER_OK_BUTTON);
-		setCancelButtonLabel(CREATE_CUSTOMER_CANCEL_BUTTON);
-
 		setMinimumSize(new Dimension(300, 200));
 		setVisible(true);
 	}
 
-	public void setCustomer(String firstName, String lastName, String address, String phoneNumber, String accountID, String memebershipID) {
+	public void setCustomer(String firstName, String lastName, String address, String city, String state, String zip, String phoneNumber, String accountID,
+			String memebershipID) {
 		firstNameField.setText(firstName);
 		lastNameField.setText(lastName);
 		addressField.setText(address);
+		cityField.setText(city);
+		stateField.setText(state);
+		zipCodeField.setText(zip);
+		phoneField.setText(phoneNumber);
+	}
 
+	public void clearFields() {
+		setCustomer("", "", "", "", "", "", "", "", "");
+	}
+
+	public boolean fieldsAreEmpty() {
+		return firstNameField.getText().isEmpty() && lastNameField.getText().isEmpty() && addressField.getText().isEmpty() && cityField.getText().isEmpty()
+				&& stateField.getText().isEmpty() && zipCodeField.getText().isEmpty() && phoneField.getText().isEmpty();
 	}
 }

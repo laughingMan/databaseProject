@@ -2,8 +2,8 @@ package homeView;
 
 import interfaces.IInnerPanelPresenter;
 import interfaces.ISelectActionViewListener;
-import movie.AddMovePresenter;
-import movie.EditMovePresenter;
+import movie.AddMoviePresenter;
+import movie.EditMoviePresenter;
 import movie.RentMoviePresenter;
 import movie.ReturnMoviePresenter;
 
@@ -19,23 +19,19 @@ public class MainViewController {
 	public MainViewController() {
 		this.view = new MainView();
 		view.setViewListener(new ISelectActionViewListener() {
-			@Override
-			public void setViewListener(ISelectActionViewListener viewListener) {
-
-			}
 
 			@Override
 			public void setSelectedType(String selectedItem) {
 				if (selectedItem.equals("Create Customer")) {
 					innerPanelPresenter = new AddCustomerPresenter();
 				} else if (selectedItem.equals("Edit Customer")) {
-					innerPanelPresenter = new EditCustomerPresenter();
+					innerPanelPresenter = new EditCustomerPresenter(view);
 				} else if (selectedItem.equals("Remove Customer")) {
 					innerPanelPresenter = new RemoveItemPresenter();
 				} else if (selectedItem.equals("Add Movie")) {
-					innerPanelPresenter = new AddMovePresenter();
+					innerPanelPresenter = new AddMoviePresenter();
 				} else if (selectedItem.equals("Edit Movie")) {
-					innerPanelPresenter = new EditMovePresenter();
+					innerPanelPresenter = new EditMoviePresenter();
 				} else if (selectedItem.equals("Remove Movie")) {
 					innerPanelPresenter = new RemoveItemPresenter();
 				} else if (selectedItem.equals("Rent Movie")) {

@@ -1,7 +1,6 @@
 package interfaces;
-public interface ISelectActionViewListener {
 
-	void setViewListener(ISelectActionViewListener viewListener);
+public interface ISelectActionViewListener {
 
 	void setSelectedType(String selectedItem);
 

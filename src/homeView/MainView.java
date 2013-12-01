@@ -44,7 +44,6 @@ public class MainView extends JPanel {
 
 	public void setViewListener(ISelectActionViewListener viewListener) {
 		this.viewListener = viewListener;
-		actionComboBox.setViewListener(viewListener);
 	}
 
 	public void setInnerPanel(JPanel innerPanelView) {
