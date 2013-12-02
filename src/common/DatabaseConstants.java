@@ -129,12 +129,12 @@ public class DatabaseConstants {
 		return userArrayList;
 	}
 
-	public static Movie getMovieInfo(String title, String format) throws SQLException {
+	public static Movie getMovieInfo(String title) throws SQLException {
 		DatabaseConstants dbConstants = new DatabaseConstants();
 		dbConstants.makeDatabaseConnection();
 		ResultSet results = dbConstants.connection.prepareStatement(
 				"SELECT title, length, year, format, movie_id FROM movie_store.movie WHERE movie_store.movie.title = \"" + title
-						+ "\" AND movie_store.movie.format = \"" + format + "\";").executeQuery();
+						+ "\";").executeQuery();
 		results.next();
 		return new Movie(results.getString(1), results.getInt(2), results.getInt(3), results.getString(4), results.getInt(5));
 	}

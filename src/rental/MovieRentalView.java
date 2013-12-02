@@ -29,10 +29,10 @@ public class MovieRentalView extends OkCancelView {
 	private final JLabel accountLabel;
 	private final JLabel membershipLabel;
 	private final JLabel sourceLabel;
-	private final JList<String> sourceList;
+	protected JList<String> sourceList;
 	private final JScrollPane sourceScrollPane;
 	private final JLabel destLabel;
-	private final JList<String> destList;
+	protected JList<String> destList;
 	private final JScrollPane destScrollPane;
 	private final JButton addButton;
 	private final JButton removeButton;
@@ -87,6 +87,7 @@ public class MovieRentalView extends OkCancelView {
 
 		destList = new JList<String>();
 		sourceList = new JList<String>();
+		viewListener = new MovieViewListener();
 		sourceList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -103,7 +104,8 @@ public class MovieRentalView extends OkCancelView {
 		removeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionevent) {
-				viewListener.removeItems(destList.getSelectedValuesList());
+				setAvailableRentals(viewListener.addItems(destList.getSelectedValuesList(), sourceList));
+				setCustomerRentals(viewListener.removeItems(destList.getSelectedValuesList(), destList));
 			}
 		});
 
@@ -114,7 +116,8 @@ public class MovieRentalView extends OkCancelView {
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionevent) {
-				viewListener.addItems(sourceList.getSelectedValuesList());
+				setCustomerRentals(viewListener.addItems(sourceList.getSelectedValuesList(), destList));
+				setAvailableRentals(viewListener.removeItems(sourceList.getSelectedValuesList(), sourceList));
 			}
 		});
 

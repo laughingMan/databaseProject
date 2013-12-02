@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.ListModel;
 
 import common.DatabaseConstants;
 import common.OkCancelView;
@@ -17,6 +18,7 @@ import common.UserInfo;
 import common.objects.Address;
 import common.objects.Customer;
 import common.objects.Item;
+import common.objects.Movie;
 import customer.CustomerModel;
 import customer.SelectCustomerView;
 
@@ -68,8 +70,15 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 		rentalView.setViewListener(new IOkCancelButtonsListener() {
 			@Override
 			public void okButtonPressed() {
-				// update model
-				// update database
+				ListModel<String> moviesToBeRented = rentalView.destList.getModel();
+				for (int i = 0; i < moviesToBeRented.getSize(); i++) {
+					try {
+						Movie movieInfo = DatabaseConstants.getMovieInfo(moviesToBeRented.getElementAt(i));
+						DatabaseConstants.addRental(movieInfo.getMovieId(), selectedCustomer.getAccountID());
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
 				homeViewListener.returnToHome();
 			}
 

@@ -2,6 +2,8 @@ package interfaces;
 
 import java.util.List;
 
+import javax.swing.JList;
+
 import common.objects.Item;
 
 public interface IItemChooserListener {
@@ -10,9 +12,9 @@ public interface IItemChooserListener {
 
 	void cancelPressed();
 
-	void addItems(List<String> selectedValuesList);
+	List<String> addItems(List<String> selectedValuesList, JList<String> destinationList);
 
-	void removeItems(List<String> selectedValuesList);
+	List<String> removeItems(List<String> selectedValuesList, JList<String> destinationList);
 
 	void setSelectedItem(String selectedItem);
 
