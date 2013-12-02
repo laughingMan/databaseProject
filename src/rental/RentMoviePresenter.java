@@ -111,11 +111,11 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 
 	private void setCustomerRentals() {
 		List<String> customerRentals = new ArrayList<String>();
-		try {
-			customerRentals = DatabaseConstants.getCurrentRentalsForUser(selectedCustomer.getCustomerID());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			customerRentals = DatabaseConstants.getCurrentRentalsForUser(selectedCustomer.getCustomerID());
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 		rentalView.setCustomerRentals(customerRentals);
 	}
 

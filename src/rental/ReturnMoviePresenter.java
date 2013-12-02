@@ -6,9 +6,11 @@ import interfaces.IOkCancelButtonsListener;
 import interfaces.ITableChooserListener;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.ListModel;
 
 import common.DatabaseConstants;
 import common.OkCancelView;
@@ -16,27 +18,32 @@ import common.UserInfo;
 import common.objects.Address;
 import common.objects.Customer;
 import common.objects.Item;
-
+import common.objects.Movie;
 import customer.SelectCustomerView;
 
 public class ReturnMoviePresenter implements IInnerPanelPresenter {
 
 	private IHomeScreenViewListener homeViewListener;
 	private final SelectCustomerView selectionView;
-	private final MovieRentalView rentalView;
+	private final MovieRentalView returnView;
 	private OkCancelView currentView;
 	private Customer selectedCustomer;
 	private UserInfo userInfo;
 
 	public ReturnMoviePresenter() {
 		selectionView = new SelectCustomerView();
-		rentalView = new MovieRentalView();
+		try {
+			selectionView.setItemList(DatabaseConstants.getAllCustomersForReturns());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		returnView = new MovieRentalView();
 		currentView = selectionView;
 
 		selectionView.setActionTitleText("Return Rentals");
-		rentalView.setActionTitleText("Return Rentals");
-		rentalView.setOkButtonLabel("Return");
-		rentalView.setCancelButtonLabel("Cancel");
+		returnView.setActionTitleText("Return Rentals");
+		returnView.setOkButtonLabel("Return");
+		returnView.setCancelButtonLabel("Cancel");
 
 		addListeners();
 	}
@@ -48,7 +55,7 @@ public class ReturnMoviePresenter implements IInnerPanelPresenter {
 				setCustomer();
 				setCustomerRentals();
 				setAvailableRentals();
-				currentView = rentalView;
+				currentView = returnView;
 				homeViewListener.resetInnerPanelView();
 			}
 
@@ -58,11 +65,18 @@ public class ReturnMoviePresenter implements IInnerPanelPresenter {
 			}
 		});
 
-		rentalView.setViewListener(new IOkCancelButtonsListener() {
+		returnView.setViewListener(new IOkCancelButtonsListener() {
 			@Override
 			public void okButtonPressed() {
-				// update model
-				// update database
+				ListModel<String> moviesToBeReturned = returnView.destList.getModel();
+				for (int i = 0; i < moviesToBeReturned.getSize(); i++) {
+					try {
+						Movie movieInfo = DatabaseConstants.getMovieInfo(moviesToBeReturned.getElementAt(i));
+						DatabaseConstants.returnRental(movieInfo.getMovieId(), selectedCustomer.getAccountID());
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
 				homeViewListener.returnToHome();
 			}
 
@@ -91,20 +105,23 @@ public class ReturnMoviePresenter implements IInnerPanelPresenter {
 		String phoneNumber = selectedCustomer.getPhoneNumber();
 		String accountID = Integer.toString(selectedCustomer.getAccountID());
 
-		rentalView.setCustomer(name, address1, address2, phoneNumber, accountID);
+		returnView.setCustomer(name, address1, address2, phoneNumber, accountID);
 	}
 
 	private void setAvailableRentals() {
-		// TODO: perform database call here
-		List<String> availableRentals = null;
-		rentalView.setAvailableRentals(availableRentals);
+		List<String> availableRentals = new ArrayList<>();
+		try {
+			availableRentals = DatabaseConstants.getCurrentRentalsForUser(selectedCustomer.getCustomerID());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		returnView.setAvailableRentals(availableRentals);
 
 	}
 
 	private void setCustomerRentals() {
-		// TODO: perform database call here
-		List<String> customerRentals = null;
-		rentalView.setCustomerRentals(customerRentals);
+		List<String> customerRentals = new ArrayList<>();
+		returnView.setCustomerRentals(customerRentals);
 	}
 
 	private Address getAddressForID(int addressID) {
