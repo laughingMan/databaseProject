@@ -37,6 +37,7 @@ public class SelectItemView extends OkCancelView {
 		table.setFillsViewportHeight(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table.setRowSelectionAllowed(true);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		// table selection model
 		ListSelectionModel selectionModel = table.getSelectionModel();

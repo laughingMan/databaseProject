@@ -65,11 +65,11 @@ public class MovieRentalView extends OkCancelView {
 		addressLabel2 = new JLabel();
 		layout.putConstraint(SpringLayout.WEST, addressLabel2, 5, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, addressLabel2, 5, SpringLayout.SOUTH, addressLabel1);
-		add(addressLabel1);
+		add(addressLabel2);
 
 		phoneNumberLabel = new JLabel();
 		layout.putConstraint(SpringLayout.WEST, phoneNumberLabel, 5, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, phoneNumberLabel, 5, SpringLayout.SOUTH, addressLabel1);
+		layout.putConstraint(SpringLayout.NORTH, phoneNumberLabel, 5, SpringLayout.SOUTH, addressLabel2);
 		add(phoneNumberLabel);
 
 		accountLabel = new JLabel();
