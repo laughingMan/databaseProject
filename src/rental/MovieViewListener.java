@@ -15,13 +15,13 @@ public class MovieViewListener implements IItemChooserListener {
 	}
 
 	@Override
-	public void addItems(List<Item> selectedValuesList) {
+	public void addItems(List<String> selectedValuesList) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void removeItems(List<Item> selectedValuesList) {
+	public void removeItems(List<String> selectedValuesList) {
 		// TODO Auto-generated method stub
 
 	}
@@ -33,7 +33,7 @@ public class MovieViewListener implements IItemChooserListener {
 	}
 
 	@Override
-	public void listSelectionChanged(List<Item> sourceSelectedValues, List<Item> destinationSelectedValues) {
+	public void listSelectionChanged(List<String> sourceSelectedValues, List<String> destinationSelectedValues) {
 		// TODO Auto-generated method stub
 
 	}
@@ -43,4 +43,5 @@ public class MovieViewListener implements IItemChooserListener {
 		// TODO Auto-generated method stub
 
 	}
+
 }

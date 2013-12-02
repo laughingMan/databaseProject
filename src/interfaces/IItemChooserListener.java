@@ -10,12 +10,12 @@ public interface IItemChooserListener {
 
 	void cancelPressed();
 
-	void addItems(List<Item> selectedValuesList);
+	void addItems(List<String> selectedValuesList);
 
-	void removeItems(List<Item> selectedValuesList);
+	void removeItems(List<String> selectedValuesList);
 
 	void setSelectedItem(String selectedItem);
 
-	void listSelectionChanged(List<Item> sourceSelectedValues, List<Item> destinationSelectedValues);
+	void listSelectionChanged(List<String> sourceSelectedValues, List<String> destinationSelectedValues);
 
 }
