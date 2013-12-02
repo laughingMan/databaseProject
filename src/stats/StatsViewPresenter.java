@@ -73,6 +73,7 @@ public class StatsViewPresenter implements IInnerPanelPresenter {
 	private List<Item> getTopUnreturned() {
 		// TODO Auto-generated method stub
 		return createMovies();
+
 	}
 
 	private List<Item> getLeastRented() {
@@ -89,11 +90,11 @@ public class StatsViewPresenter implements IInnerPanelPresenter {
 	private List<Item> createMovies() {
 		List<Item> movies = new ArrayList<Item>();
 
-		Movie movie1 = new Movie("Ghostbusters", 123, 1980, "vhs", 123, 1);
-		Movie movie2 = new Movie("Ghostbusters II", 234, 1982, "dvd", 234, 1);
-		Movie movie3 = new Movie("Ghostbusters III", 345, 1983, "bluray", 3435, 1);
-		Movie movie4 = new Movie("Ghostbusters IV", 3435, 1984, "bluray", 3645, 1);
-		Movie movie5 = new Movie("Ghostbusters V", 3475, 1985, "bluray", 3415, 1);
+		Movie movie1 = new Movie("Ghostbusters", 123, 1980, "vhs", 1);
+		Movie movie2 = new Movie("Ghostbusters II", 234, 1982, "dvd", 1);
+		Movie movie3 = new Movie("Ghostbusters III", 345, 1983, "bluray", 1);
+		Movie movie4 = new Movie("Ghostbusters IV", 3435, 1984, "bluray", 1);
+		Movie movie5 = new Movie("Ghostbusters V", 3475, 1985, "bluray", 1);
 
 		movies.add(movie1);
 		movies.add(movie2);
@@ -108,11 +109,11 @@ public class StatsViewPresenter implements IInnerPanelPresenter {
 	private List<Item> createCustomers() {
 		List<Item> customers = new ArrayList<Item>();
 
-		Customer customer1 = new Customer("isaac", "hatton", 231, "6187918662", 222, 433, 345);
-		Customer customer2 = new Customer("joe", "blow", 234, "2134537890", 111, 245, 786);
-		Customer customer3 = new Customer("john", "smith", 2545, "3730138745", 344, 996, 432);
-		Customer customer4 = new Customer("steven", "tars", 2565, "4729384677", 534, 9496, 4322);
-		Customer customer5 = new Customer("josh", "none", 2255, "4563456123", 3444, 9967, 4332);
+		Customer customer1 = new Customer("isaac", "hatton", 231, "6187918662", 222, 345);
+		Customer customer2 = new Customer("joe", "blow", 234, "2134537890", 111, 786);
+		Customer customer3 = new Customer("john", "smith", 2545, "3730138745", 344, 432);
+		Customer customer4 = new Customer("steven", "tars", 2565, "4729384677", 534, 4322);
+		Customer customer5 = new Customer("josh", "none", 2255, "4563456123", 3444, 4332);
 
 		customers.add(customer1);
 		customers.add(customer2);

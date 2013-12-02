@@ -83,9 +83,8 @@ public class ReturnMoviePresenter implements IInnerPanelPresenter {
 		String address2 = address.getCity() + ", " + address.getState() + "  " + address.getZip();
 		String phoneNumber = selectedCustomer.getPhoneNumber();
 		String accountID = Integer.toString(selectedCustomer.getAccountID());
-		String memebershipID = Integer.toString(selectedCustomer.getMemebershipID());
 
-		rentalView.setCustomer(name, address1, address2, phoneNumber, accountID, memebershipID);
+		rentalView.setCustomer(name, address1, address2, phoneNumber, accountID);
 	}
 
 	private Address getAddressForID(int addressID) {

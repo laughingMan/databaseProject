@@ -4,7 +4,11 @@ import interfaces.IHomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
 import interfaces.IOkCancelButtonsListener;
 
+import java.sql.SQLException;
+
 import javax.swing.JPanel;
+
+import common.DatabaseConstants;
 
 public class AddCustomerPresenter implements IInnerPanelPresenter {
 
@@ -27,8 +31,12 @@ public class AddCustomerPresenter implements IInnerPanelPresenter {
 		view.setViewListener(new IOkCancelButtonsListener() {
 			@Override
 			public void okButtonPressed() {
-				// update model
-				// update database
+				try {
+					DatabaseConstants.addCustomer(view.firstNameField.getText(), view.lastNameField.getText(), view.phoneField.getText(),
+							view.addressField.getText(), view.cityField.getText(), view.stateField.getText(), view.zipCodeField.getText());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				viewListener.returnToHome();
 			}
 

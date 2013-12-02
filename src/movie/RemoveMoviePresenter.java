@@ -5,6 +5,7 @@ import interfaces.IInnerPanelPresenter;
 import interfaces.IOkCancelButtonsListener;
 import interfaces.ITableChooserListener;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 
 import rental.SelectItemView;
 
+import common.DatabaseConstants;
 import common.objects.Item;
 import common.objects.Movie;
 
@@ -46,8 +48,11 @@ public class RemoveMoviePresenter implements IInnerPanelPresenter {
 						JOptionPane.YES_NO_OPTION);
 				if (dialogResult == JOptionPane.YES_OPTION) {
 					JOptionPane.showMessageDialog(view, DELETE_MOVIE_CONFIRMATION_LABEL, DELETE_MOVIE_CONFIRMATION_TITLE, JOptionPane.OK_OPTION);
-					// update model
-					// update database
+					try {
+						DatabaseConstants.deleteMovie(selectedMovie.getTitle(), selectedMovie.getFormat());
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 					homeScreenViewListener.returnToHome();
 				}
 			}

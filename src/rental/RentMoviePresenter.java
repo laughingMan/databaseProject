@@ -5,11 +5,14 @@ import interfaces.IInnerPanelPresenter;
 import interfaces.IOkCancelButtonsListener;
 import interfaces.ITableChooserListener;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JPanel;
 
+import common.DatabaseConstants;
 import common.OkCancelView;
+import common.UserInfo;
 import common.objects.Address;
 import common.objects.Customer;
 import common.objects.Item;
@@ -29,6 +32,7 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 	private static final String RENT_MOVIE_OK_BUTTON = "Rent";
 	private static final String RENT_MOVIE_CANCEL_BUTTON = "Back";
 	private IHomeScreenViewListener homeViewListener;
+	private UserInfo userInfo;
 
 	public RentMoviePresenter() {
 		model = new CustomerModel();
@@ -42,6 +46,15 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 		rentalView.setCancelButtonLabel(RENT_MOVIE_CANCEL_BUTTON);
 
 		addListeners();
+	}
+
+	private Address getAddressForID(int addressID) {
+		try {
+			userInfo = DatabaseConstants.getUserInfo(selectedCustomer.getFirstName(), selectedCustomer.getLastName());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new Address(userInfo.getAddress(), userInfo.getCity(), userInfo.getState(), userInfo.getZipCode());
 	}
 
 	private void addListeners() {
@@ -90,14 +103,8 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 		String address2 = address.getCity() + ", " + address.getState() + "  " + address.getZip();
 		String phoneNumber = selectedCustomer.getPhoneNumber();
 		String accountID = Integer.toString(selectedCustomer.getAccountID());
-		String memebershipID = Integer.toString(selectedCustomer.getMemebershipID());
 
-		rentalView.setCustomer(name, address1, address2, phoneNumber, accountID, memebershipID);
-	}
-
-	private Address getAddressForID(int addressID) {
-		// TODO: make database call
-		return new Address("123 Address Ln.", "Testville", "OK", "12345");
+		rentalView.setCustomer(name, address1, address2, phoneNumber, accountID);
 	}
 
 	@Override

@@ -1,12 +1,10 @@
 package customer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
 
 import rental.SelectItemView;
 
-import common.objects.Customer;
-import common.objects.Item;
+import common.DatabaseConstants;
 
 public class SelectCustomerView extends SelectItemView {
 	private static final long serialVersionUID = 1L;
@@ -23,20 +21,10 @@ public class SelectCustomerView extends SelectItemView {
 		setOkButtonLabel(SELECT_CUSTOMER_OK_BUTTON);
 		setCancelButtonLabel(SELECT_CUSTOMER_CANCEL_BUTTON);
 
-		setItemList(createCustomers());
-	}
-
-	private List<Item> createCustomers() {
-		List<Item> customers = new ArrayList<Item>();
-
-		Customer customer = new Customer("isaac", "hatton", 231, "6187918662", 222, 433, 345);
-		Customer customer2 = new Customer("joe", "blow", 234, "2134537890", 111, 245, 786);
-		Customer customer3 = new Customer("john", "smith", 255, "1233435456", 344, 996, 432);
-
-		customers.add(customer);
-		customers.add(customer2);
-		customers.add(customer3);
-
-		return customers;
+		try {
+			setItemList(DatabaseConstants.getAllCustomers());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

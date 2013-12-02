@@ -5,6 +5,7 @@ import interfaces.IInnerPanelPresenter;
 import interfaces.IOkCancelButtonsListener;
 import interfaces.ITableChooserListener;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 
 import rental.SelectItemView;
 
+import common.DatabaseConstants;
 import common.objects.Customer;
 import common.objects.Item;
 
@@ -46,8 +48,11 @@ public class RemoveCustomerPresenter implements IInnerPanelPresenter {
 						JOptionPane.YES_NO_OPTION);
 				if (dialogResult == JOptionPane.YES_OPTION) {
 					JOptionPane.showMessageDialog(view, DELETE_CUSTOMER_CONFIRMATION_LABEL, DELETE_CUSTOMER_CONFIRMATION_TITLE, JOptionPane.OK_OPTION);
-					// update model
-					// update database
+					try {
+						DatabaseConstants.deleteUser(selectedCustomer.getCustomerID());
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 					homeScreenViewListener.returnToHome();
 				}
 			}

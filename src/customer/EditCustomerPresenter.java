@@ -5,11 +5,14 @@ import interfaces.IInnerPanelPresenter;
 import interfaces.IOkCancelButtonsListener;
 import interfaces.ITableChooserListener;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JPanel;
 
+import common.DatabaseConstants;
 import common.OkCancelView;
+import common.UserInfo;
 import common.objects.Address;
 import common.objects.Customer;
 import common.objects.Item;
@@ -26,6 +29,7 @@ public class EditCustomerPresenter implements IInnerPanelPresenter {
 	private static final String EDIT_CUSTOMER_OK_BUTTON = "Edit";
 	private static final String EDIT_CUSTOMER_CANCEL_BUTTON = "Back";
 	private IHomeScreenViewListener homeViewListener;
+	private UserInfo userInfo;
 
 	public EditCustomerPresenter() {
 		model = new CustomerModel();
@@ -61,6 +65,13 @@ public class EditCustomerPresenter implements IInnerPanelPresenter {
 			public void okButtonPressed() {
 				// update model
 				// update database
+				try {
+					DatabaseConstants.updateUserInfo(new UserInfo(editView.firstNameField.getText(), editView.lastNameField.getText(), editView.phoneField
+							.getText(), editView.addressField.getText(), editView.cityField.getText(), editView.stateField.getText(), editView.zipCodeField
+							.getText(), 0, selectedCustomer.getCustomerID(), selectedCustomer.getAddressID(), selectedCustomer.getAccountID()));
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				homeViewListener.returnToHome();
 			}
 
@@ -90,14 +101,17 @@ public class EditCustomerPresenter implements IInnerPanelPresenter {
 		String zip = customerAddress.getZip();
 		String phoneNumber = selectedCustomer.getPhoneNumber();
 		String accountID = Integer.toString(selectedCustomer.getAccountID());
-		String memebershipID = Integer.toString(selectedCustomer.getMemebershipID());
 
-		editView.setCustomer(firstName, lastName, address, city, state, zip, phoneNumber, accountID, memebershipID);
+		editView.setCustomer(firstName, lastName, address, city, state, zip, phoneNumber, accountID);
 	}
 
 	private Address getAddressForID(int addressID) {
-		// TODO: make database call
-		return new Address("123 Address Ln.", "Testville", "OK", "12345");
+		try {
+			userInfo = DatabaseConstants.getUserInfo(selectedCustomer.getFirstName(), selectedCustomer.getLastName());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new Address(userInfo.getAddress(), userInfo.getCity(), userInfo.getState(), userInfo.getZipCode());
 	}
 
 	@Override

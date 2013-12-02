@@ -4,7 +4,11 @@ import interfaces.IHomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
 import interfaces.IOkCancelButtonsListener;
 
+import java.sql.SQLException;
+
 import javax.swing.JPanel;
+
+import common.DatabaseConstants;
 
 public class AddMoviePresenter implements IInnerPanelPresenter {
 
@@ -30,8 +34,14 @@ public class AddMoviePresenter implements IInnerPanelPresenter {
 		view.setViewListener(new IOkCancelButtonsListener() {
 			@Override
 			public void okButtonPressed() {
-				// update model
-				// update database
+				try {
+					DatabaseConstants.addMovie(Integer.valueOf(view.lengthField.getText()), view.titleField.getText(),
+							Integer.valueOf(view.yearField.getText()), view.formatField.getText(), 100);
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				homeViewListener.returnToHome();
 			}
 
