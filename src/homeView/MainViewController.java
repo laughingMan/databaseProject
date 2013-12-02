@@ -1,6 +1,6 @@
 package homeView;
 
-import interfaces.HomeScreenViewListener;
+import interfaces.IHomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
 import interfaces.ISelectActionViewListener;
 import movie.AddMoviePresenter;
@@ -37,8 +37,10 @@ public class MainViewController {
 					innerPanelPresenter = new RemoveMoviePresenter();
 				} else if (selectedItem.equals("Return Movie")) {
 					innerPanelPresenter = new ReturnMoviePresenter();
-				} else if (selectedItem.equals("Statics")) {
-					innerPanelPresenter = new StatsViewPresenter();
+				} else if (selectedItem.equals("Customer Statistics")) {
+					innerPanelPresenter = new StatsViewPresenter(0);
+				} else if (selectedItem.equals("Movie Statistics")) {
+					innerPanelPresenter = new StatsViewPresenter(1);
 				} else {
 					innerPanelPresenter = new RentMoviePresenter();
 				}
@@ -54,7 +56,7 @@ public class MainViewController {
 	}
 
 	private void addViewListener() {
-		innerPanelPresenter.addViewListener(new HomeScreenViewListener() {
+		innerPanelPresenter.addViewListener(new IHomeScreenViewListener() {
 			@Override
 			public void returnToHome() {
 				innerPanelPresenter = new RentMoviePresenter();
@@ -77,5 +79,4 @@ public class MainViewController {
 	public MainView getView() {
 		return view;
 	}
-
 }

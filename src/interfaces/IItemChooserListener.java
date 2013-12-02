@@ -1,6 +1,8 @@
-package common;
+package interfaces;
 
 import java.util.List;
+
+import common.objects.Item;
 
 public interface IItemChooserListener {
 

@@ -8,7 +8,7 @@ import javax.swing.SpringLayout;
 
 import common.OkCancelView;
 
-public class AddMovieView extends OkCancelView {
+public class MovieView extends OkCancelView {
 	private static final long serialVersionUID = 1L;
 
 	private final JTextField titleField;
@@ -17,7 +17,7 @@ public class AddMovieView extends OkCancelView {
 	private final JTextField yearField;
 	private final JTextField formatField;
 
-	public AddMovieView() {
+	public MovieView() {
 		JLabel lengthLabel = new JLabel("Length: ");
 		lengthField = new JTextField(25);
 

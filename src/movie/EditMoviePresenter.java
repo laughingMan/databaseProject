@@ -1,33 +1,33 @@
 package movie;
 
-import interfaces.HomeScreenViewListener;
+import interfaces.IHomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
+import interfaces.IOkCancelButtonsListener;
 import interfaces.ITableChooserListener;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JPanel;
 
-import common.Item;
 import common.OkCancelView;
+import common.objects.Item;
+import common.objects.Movie;
 
 public class EditMoviePresenter implements IInnerPanelPresenter {
 
 	private final SelectMovieView selectionView;
-	private final AddMovieView editView;
+	private final MovieView editView;
 	private Movie selectedMovie;
 
 	String EDIT_MOVIE_ACTION_TITLE = "Edit Movie";
 	String EDIT_MOVIE_OK_BUTTON = "Edit";
 	String EDIT_MOVIE_CANCEL_BUTTON = "Back";
-	private HomeScreenViewListener homeViewListener;
+	private IHomeScreenViewListener homeViewListener;
 	private OkCancelView currentView;
 
 	public EditMoviePresenter() {
 		selectionView = new SelectMovieView();
-		editView = new AddMovieView();
+		editView = new MovieView();
 		currentView = selectionView;
 
 		selectionView.setActionTitleText(EDIT_MOVIE_ACTION_TITLE);
@@ -39,42 +39,36 @@ public class EditMoviePresenter implements IInnerPanelPresenter {
 	}
 
 	private void addListeners() {
-		selectionView.addOkButtonPressedListener(new ActionListener() {
+		selectionView.setViewListener(new IOkCancelButtonsListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void okButtonPressed() {
 				setMovie();
 				currentView = editView;
 				homeViewListener.resetInnerPanelView();
 			}
+
+			@Override
+			public void cancelButtonPressed() {
+				homeViewListener.returnToHome();
+			}
 		});
 
-		editView.addOkButtonPressedListener(new ActionListener() {
+		editView.setViewListener(new IOkCancelButtonsListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void okButtonPressed() {
 				// update model
 				// update database
 				homeViewListener.returnToHome();
 			}
-		});
 
-		editView.addCancelButtonPressedListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!editView.fieldsAreClear()) {
-					currentView = selectionView;
-					homeViewListener.resetInnerPanelView();
-				}
+			public void cancelButtonPressed() {
+				currentView = selectionView;
+				homeViewListener.resetInnerPanelView();
 			}
 		});
 
-		selectionView.addCancelButtonPressedListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				homeViewListener.returnToHome();
-			}
-		});
-
-		selectionView.setViewListener(new ITableChooserListener() {
+		selectionView.setTableViewListener(new ITableChooserListener() {
 			@Override
 			public void listSelectionChanged(List<Item> selectedValue) {
 				selectedMovie = (Movie) selectedValue.get(0);
@@ -99,7 +93,7 @@ public class EditMoviePresenter implements IInnerPanelPresenter {
 	}
 
 	@Override
-	public void addViewListener(HomeScreenViewListener homeScreenViewListener) {
+	public void addViewListener(IHomeScreenViewListener homeScreenViewListener) {
 		this.homeViewListener = homeScreenViewListener;
 	}
 }

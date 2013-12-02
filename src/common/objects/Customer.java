@@ -1,6 +1,5 @@
-package customer;
+package common.objects;
 
-import common.Item;
 
 public class Customer implements Item {
 	private String firstName;

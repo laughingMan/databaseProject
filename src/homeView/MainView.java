@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import common.ActionComboBox;
+
 public class MainView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final ActionComboBox actionComboBox = new ActionComboBox();

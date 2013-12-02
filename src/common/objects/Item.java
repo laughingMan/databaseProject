@@ -1,4 +1,4 @@
-package common;
+package common.objects;
 
 public interface Item {
 

@@ -3,8 +3,10 @@ package customer;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.Item;
-import common.SelectItemView;
+import rental.SelectItemView;
+
+import common.objects.Customer;
+import common.objects.Item;
 
 public class SelectCustomerView extends SelectItemView {
 	private static final long serialVersionUID = 1L;
@@ -21,7 +23,7 @@ public class SelectCustomerView extends SelectItemView {
 		setOkButtonLabel(SELECT_CUSTOMER_OK_BUTTON);
 		setCancelButtonLabel(SELECT_CUSTOMER_CANCEL_BUTTON);
 
-		setCustomerList(createCustomers());
+		setItemList(createCustomers());
 	}
 
 	private List<Item> createCustomers() {

@@ -1,6 +1,5 @@
-package movie;
+package common.objects;
 
-import common.Item;
 
 public class Movie implements Item {
 

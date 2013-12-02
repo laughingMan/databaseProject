@@ -1,4 +1,4 @@
-package common;
+package rental;
 
 import interfaces.ITableChooserListener;
 
@@ -16,13 +16,17 @@ import javax.swing.SpringLayout;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import common.ItemTableModel;
+import common.OkCancelView;
+import common.objects.Item;
+
 public class SelectItemView extends OkCancelView {
 	private static final long serialVersionUID = 1L;
 	private JList<Item> sourceList;
 	private final JScrollPane sourceScrollPane;
 	private final JTable table;
 	private final ItemTableModel itemTableModel;
-	private ITableChooserListener viewListener;
+	protected ITableChooserListener tableViewListener;
 	private final JLabel tableLabel;
 
 	public SelectItemView() {
@@ -40,7 +44,7 @@ public class SelectItemView extends OkCancelView {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting()) {
-					viewListener.listSelectionChanged(itemTableModel.getItemForIndices(table.getSelectedRows()));
+					tableViewListener.listSelectionChanged(itemTableModel.getItemForIndices(table.getSelectedRows()));
 				}
 			}
 		});
@@ -70,12 +74,13 @@ public class SelectItemView extends OkCancelView {
 		tableLabel.setText(label);
 	}
 
-	public void setCustomerList(List<Item> items) {
+	public void setItemList(List<Item> items) {
 		itemTableModel.setItems(items);
 		table.setModel(itemTableModel);
 	}
 
-	public void setViewListener(ITableChooserListener viewListener) {
-		this.viewListener = viewListener;
+	public void setTableViewListener(ITableChooserListener viewListener) {
+		this.tableViewListener = viewListener;
 	}
+
 }

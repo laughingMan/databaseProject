@@ -1,10 +1,8 @@
 package customer;
 
-import interfaces.HomeScreenViewListener;
+import interfaces.IHomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import interfaces.IOkCancelButtonsListener;
 
 import javax.swing.JPanel;
 
@@ -12,7 +10,7 @@ public class AddCustomerPresenter implements IInnerPanelPresenter {
 
 	private final CustomerModel model;
 	private final AddCustomerView view;
-	private HomeScreenViewListener viewListener;
+	private IHomeScreenViewListener viewListener;
 
 	public AddCustomerPresenter() {
 		model = new CustomerModel();
@@ -26,18 +24,16 @@ public class AddCustomerPresenter implements IInnerPanelPresenter {
 	}
 
 	private void setListeners() {
-		view.addOkButtonPressedListener(new ActionListener() {
+		view.setViewListener(new IOkCancelButtonsListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void okButtonPressed() {
 				// update model
 				// update database
 				viewListener.returnToHome();
 			}
-		});
 
-		view.addCancelButtonPressedListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void cancelButtonPressed() {
 				// if (!view.fieldsAreEmpty()) {
 				// view.setCancelButtonLabel("Back");
 				// view.clearFields();
@@ -49,7 +45,7 @@ public class AddCustomerPresenter implements IInnerPanelPresenter {
 	}
 
 	@Override
-	public void addViewListener(HomeScreenViewListener viewListener) {
+	public void addViewListener(IHomeScreenViewListener viewListener) {
 		this.viewListener = viewListener;
 	}
 

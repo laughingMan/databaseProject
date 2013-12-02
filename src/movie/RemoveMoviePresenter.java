@@ -1,6 +1,6 @@
 package movie;
 
-import interfaces.HomeScreenViewListener;
+import interfaces.IHomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
 import interfaces.IOkCancelButtonsListener;
 import interfaces.ITableChooserListener;
@@ -10,8 +10,10 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import common.Item;
-import common.SelectItemView;
+import rental.SelectItemView;
+
+import common.objects.Item;
+import common.objects.Movie;
 
 public class RemoveMoviePresenter implements IInnerPanelPresenter {
 
@@ -25,7 +27,7 @@ public class RemoveMoviePresenter implements IInnerPanelPresenter {
 	private static final String REMOVE_MOVIE_CONFIRMATION_TITLE = "Remove Item";
 	private static final String DELETE_MOVIE_CONFIRMATION_LABEL = "Movie has been deleted";
 	private static final String DELETE_MOVIE_CONFIRMATION_TITLE = "Movie Deleted";
-	private HomeScreenViewListener homeScreenViewListener;
+	private IHomeScreenViewListener homeScreenViewListener;
 	private Movie selectedMovie;
 
 	public RemoveMoviePresenter() {
@@ -56,7 +58,7 @@ public class RemoveMoviePresenter implements IInnerPanelPresenter {
 			}
 		});
 
-		view.setViewListener(new ITableChooserListener() {
+		view.setTableViewListener(new ITableChooserListener() {
 			@Override
 			public void listSelectionChanged(List<Item> selectedValue) {
 				selectedMovie = (Movie) selectedValue.get(0);
@@ -71,7 +73,7 @@ public class RemoveMoviePresenter implements IInnerPanelPresenter {
 	}
 
 	@Override
-	public void addViewListener(HomeScreenViewListener homeScreenViewListener) {
+	public void addViewListener(IHomeScreenViewListener homeScreenViewListener) {
 		this.homeScreenViewListener = homeScreenViewListener;
 	}
 }

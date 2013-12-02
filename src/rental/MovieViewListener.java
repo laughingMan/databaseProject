@@ -1,11 +1,12 @@
 package rental;
 
+import interfaces.IItemChooserListener;
+
 import java.util.List;
 
-import common.IItemChooserListener;
-import common.Item;
+import common.objects.Item;
 
-public class RentMovieViewListener implements IItemChooserListener {
+public class MovieViewListener implements IItemChooserListener {
 
 	@Override
 	public void okPressed() {

@@ -1,7 +1,7 @@
 package interfaces;
 
 
-public interface HomeScreenViewListener {
+public interface IHomeScreenViewListener {
 
 	void returnToHome();
 

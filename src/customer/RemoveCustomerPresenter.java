@@ -1,6 +1,6 @@
 package customer;
 
-import interfaces.HomeScreenViewListener;
+import interfaces.IHomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
 import interfaces.IOkCancelButtonsListener;
 import interfaces.ITableChooserListener;
@@ -10,8 +10,10 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import common.Item;
-import common.SelectItemView;
+import rental.SelectItemView;
+
+import common.objects.Customer;
+import common.objects.Item;
 
 public class RemoveCustomerPresenter implements IInnerPanelPresenter {
 
@@ -25,7 +27,7 @@ public class RemoveCustomerPresenter implements IInnerPanelPresenter {
 	private static final String REMOVE_CUSTOMER_CONFIRMATION_TITLE = "Remove Customer";
 	private static final String DELETE_CUSTOMER_CONFIRMATION_LABEL = "Customer has been deleted";
 	private static final String DELETE_CUSTOMER_CONFIRMATION_TITLE = "Customer Deleted";
-	private HomeScreenViewListener homeScreenViewListener;
+	private IHomeScreenViewListener homeScreenViewListener;
 	private Customer selectedCustomer;
 
 	public RemoveCustomerPresenter() {
@@ -56,7 +58,7 @@ public class RemoveCustomerPresenter implements IInnerPanelPresenter {
 			}
 		});
 
-		view.setViewListener(new ITableChooserListener() {
+		view.setTableViewListener(new ITableChooserListener() {
 			@Override
 			public void listSelectionChanged(List<Item> selectedValue) {
 				selectedCustomer = (Customer) selectedValue.get(0);
@@ -71,7 +73,7 @@ public class RemoveCustomerPresenter implements IInnerPanelPresenter {
 	}
 
 	@Override
-	public void addViewListener(HomeScreenViewListener homeScreenViewListener) {
+	public void addViewListener(IHomeScreenViewListener homeScreenViewListener) {
 		this.homeScreenViewListener = homeScreenViewListener;
 	}
 }

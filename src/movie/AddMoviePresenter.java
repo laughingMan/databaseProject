@@ -1,18 +1,16 @@
 package movie;
 
-import interfaces.HomeScreenViewListener;
+import interfaces.IHomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import interfaces.IOkCancelButtonsListener;
 
 import javax.swing.JPanel;
 
 public class AddMoviePresenter implements IInnerPanelPresenter {
 
-	private final AddMovieView view;
+	private final MovieView view;
 	private final MovieModel model;
-	private HomeScreenViewListener homeViewListener;
+	private IHomeScreenViewListener homeViewListener;
 
 	private static final String CREATE_CUSTOMER_TITLE = "Add A New Movie";
 	private static final String CREATE_CUSTOMER_OK_BUTTON = "Add";
@@ -20,7 +18,7 @@ public class AddMoviePresenter implements IInnerPanelPresenter {
 
 	public AddMoviePresenter() {
 		model = new MovieModel();
-		view = new AddMovieView();
+		view = new MovieView();
 
 		view.setActionTitleText(CREATE_CUSTOMER_TITLE);
 		view.setOkButtonLabel(CREATE_CUSTOMER_OK_BUTTON);
@@ -29,18 +27,16 @@ public class AddMoviePresenter implements IInnerPanelPresenter {
 	}
 
 	private void setListeners() {
-		view.addOkButtonPressedListener(new ActionListener() {
+		view.setViewListener(new IOkCancelButtonsListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void okButtonPressed() {
 				// update model
 				// update database
 				homeViewListener.returnToHome();
 			}
-		});
 
-		view.addCancelButtonPressedListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void cancelButtonPressed() {
 				// if (!view.fieldsAreClear()) {
 				// view.clearFields();
 				// view.setCancelButtonLabel("Back");
@@ -57,7 +53,7 @@ public class AddMoviePresenter implements IInnerPanelPresenter {
 	}
 
 	@Override
-	public void addViewListener(HomeScreenViewListener homeScreenViewListener) {
+	public void addViewListener(IHomeScreenViewListener homeScreenViewListener) {
 		this.homeViewListener = homeScreenViewListener;
 	}
 }

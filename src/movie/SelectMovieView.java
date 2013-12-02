@@ -3,8 +3,10 @@ package movie;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.Item;
-import common.SelectItemView;
+import rental.SelectItemView;
+
+import common.objects.Item;
+import common.objects.Movie;
 
 public class SelectMovieView extends SelectItemView {
 	private static final long serialVersionUID = 1L;
@@ -21,7 +23,7 @@ public class SelectMovieView extends SelectItemView {
 		setOkButtonLabel(SELECT_MOVIE_OK_BUTTON);
 		setCancelButtonLabel(SELECT_MOVIE_CANCEL_BUTTON);
 
-		setCustomerList(createMovies());
+		setItemList(createMovies());
 	}
 
 	private List<Item> createMovies() {

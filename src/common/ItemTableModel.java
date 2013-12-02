@@ -5,11 +5,17 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import common.objects.Item;
+
 public class ItemTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private Object[][] data;
 	private final Object[] columnNames = { "ID", "Name" };
 	private List<Item> items;
+
+	public ItemTableModel() {
+		this(new ArrayList<Item>());
+	}
 
 	public ItemTableModel(List<Item> items) {
 		this.items = items;

@@ -2,7 +2,7 @@ package interfaces;
 
 import java.util.List;
 
-import common.Item;
+import common.objects.Item;
 
 public interface ITableChooserListener {
 

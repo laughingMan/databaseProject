@@ -6,6 +6,6 @@ public interface IInnerPanelPresenter {
 
 	JPanel getView();
 
-	void addViewListener(HomeScreenViewListener homeScreenViewListener);
+	void addViewListener(IHomeScreenViewListener homeScreenViewListener);
 
 }

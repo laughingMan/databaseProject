@@ -1,27 +1,26 @@
 package rental;
 
-import interfaces.HomeScreenViewListener;
+import interfaces.IHomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
+import interfaces.IOkCancelButtonsListener;
 import interfaces.ITableChooserListener;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JPanel;
 
-import common.Item;
 import common.OkCancelView;
-import common.SelectItemView;
+import common.objects.Address;
+import common.objects.Customer;
+import common.objects.Item;
 
-import customer.Customer;
 import customer.CustomerModel;
 import customer.SelectCustomerView;
 
 public class RentMoviePresenter implements IInnerPanelPresenter {
 
 	private final SelectItemView selectionView;
-	private final RentMovieView rentalView;
+	private final MovieRentalView rentalView;
 	private OkCancelView currentView;
 	private final CustomerModel model;
 	private Customer selectedCustomer;
@@ -29,12 +28,12 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 	private static final String RENT_MOVIE_ACTION_TITLE = "Rent Movie";
 	private static final String RENT_MOVIE_OK_BUTTON = "Rent";
 	private static final String RENT_MOVIE_CANCEL_BUTTON = "Back";
-	private HomeScreenViewListener homeViewListener;
+	private IHomeScreenViewListener homeViewListener;
 
 	public RentMoviePresenter() {
 		model = new CustomerModel();
 		selectionView = new SelectCustomerView();
-		rentalView = new RentMovieView();
+		rentalView = new MovieRentalView();
 		currentView = selectionView;
 
 		selectionView.setActionTitleText(RENT_MOVIE_ACTION_TITLE);
@@ -45,46 +44,37 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 		addListeners();
 	}
 
-	private String getAddressForID(int addressID) {
-		// TODO: remove and make database call
-		return "123 Address Ln.";
-	}
-
 	private void addListeners() {
-		selectionView.addOkButtonPressedListener(new ActionListener() {
+		selectionView.setViewListener(new IOkCancelButtonsListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void okButtonPressed() {
 				setCustomer();
 				currentView = rentalView;
 				homeViewListener.resetInnerPanelView();
 			}
-		});
 
-		selectionView.addCancelButtonPressedListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void cancelButtonPressed() {
 				homeViewListener.returnToHome();
 			}
 		});
 
-		rentalView.addOkButtonPressedListener(new ActionListener() {
+		rentalView.setViewListener(new IOkCancelButtonsListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void okButtonPressed() {
 				// update model
 				// update database
 				homeViewListener.returnToHome();
 			}
-		});
 
-		rentalView.addCancelButtonPressedListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void cancelButtonPressed() {
 				currentView = selectionView;
 				homeViewListener.resetInnerPanelView();
 			}
 		});
 
-		selectionView.setViewListener(new ITableChooserListener() {
+		selectionView.setTableViewListener(new ITableChooserListener() {
 			@Override
 			public void listSelectionChanged(List<Item> selectedValue) {
 				selectedCustomer = (Customer) selectedValue.get(0);
@@ -95,12 +85,19 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 
 	private void setCustomer() {
 		String name = selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName();
-		String address = getAddressForID(selectedCustomer.getAddressID());
+		Address address = getAddressForID(selectedCustomer.getAddressID());
+		String address1 = address.getAddress();
+		String address2 = address.getCity() + ", " + address.getState() + "  " + address.getZip();
 		String phoneNumber = selectedCustomer.getPhoneNumber();
 		String accountID = Integer.toString(selectedCustomer.getAccountID());
 		String memebershipID = Integer.toString(selectedCustomer.getMemebershipID());
 
-		rentalView.setCustomer(name, address, phoneNumber, accountID, memebershipID);
+		rentalView.setCustomer(name, address1, address2, phoneNumber, accountID, memebershipID);
+	}
+
+	private Address getAddressForID(int addressID) {
+		// TODO: make database call
+		return new Address("123 Address Ln.", "Testville", "OK", "12345");
 	}
 
 	@Override
@@ -109,7 +106,7 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 	}
 
 	@Override
-	public void addViewListener(HomeScreenViewListener viewListener) {
+	public void addViewListener(IHomeScreenViewListener viewListener) {
 		this.homeViewListener = viewListener;
 	}
 }
