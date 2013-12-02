@@ -33,6 +33,7 @@ public class ReturnMoviePresenter implements IInnerPanelPresenter {
 		rentalView = new MovieRentalView();
 		currentView = selectionView;
 
+		selectionView.setActionTitleText("Return Rentals");
 		rentalView.setActionTitleText("Return Rentals");
 		rentalView.setOkButtonLabel("Return");
 		rentalView.setCancelButtonLabel("Cancel");

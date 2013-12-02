@@ -49,7 +49,7 @@ public class EditCustomerPresenter implements IInnerPanelPresenter {
 		selectionView.setViewListener(new IOkCancelButtonsListener() {
 			@Override
 			public void okButtonPressed() {
-				// setCustomer();
+				setCustomer();
 				currentView = editView;
 				homeViewListener.resetInnerPanelView();
 			}
