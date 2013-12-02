@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import customer.Customer;
@@ -37,7 +38,7 @@ public class DatabaseConstants {
         }
     }
 	
-	public static void addUser(String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode) throws SQLException{
+	public static void addCustomer(String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode) throws SQLException{
 		DatabaseConstants dbConstants = new DatabaseConstants();
 		dbConstants.makeDatabaseConnection();
 		dbConstants.connection.prepareStatement("INSERT INTO movie_store.account (balance) VALUES (0.0);").execute();
@@ -126,6 +127,121 @@ public class DatabaseConstants {
 		dbConstants.connection.prepareStatement("UPDATE movie_store.inventory SET movie_store.inventory.total_inventory=0 WHERE movie_store.inventory.movie_id = (SELECT movie_store.movie.movie_id FROM movie_store.movie WHERE movie_store.movie.title = \""+title+"\" AND movie_store.movie.format = \""+format+"\");").executeUpdate();
 	}
 	
+	public static List<Item> getPossibleRentalsForUser(int customerId) throws SQLException{
+		DatabaseConstants dbConstants = new DatabaseConstants();
+		dbConstants.makeDatabaseConnection();
+		dbConstants.connection.prepareStatement("CREATE TEMPORARY TABLE IF NOT EXISTS moviesRented AS (SELECT title, format, movie_id FROM movie_store.movie AS x NATURAL JOIN (SELECT movie_id FROM (SELECT * FROM movie_store.rental WHERE movie_store.rental.return_date IS NOT NULL) AS x NATURAL JOIN (SELECT movie_store.customer.account_id FROM movie_store.customer WHERE movie_store.customer.account_id = \""+ customerId +"\") AS y) AS y);").execute();
+		ResultSet results = dbConstants.connection.prepareStatement("SELECT title, length, year, format, movie_id FROM movie_store.movie WHERE movie_store.movie.movie_id NOT IN (SELECT movie_id FROM moviesRented);").executeQuery();
+		ArrayList<Item> userArrayList = new ArrayList<Item>();
+		while(results.next()){
+			Movie movie = new Movie(results.getString(1), results.getInt(2), results.getInt(3), results.getString(4), results.getInt(5));
+			userArrayList.add(movie);
+		}
+		dbConstants.connection.prepareStatement("DROP TABLE IF EXISTS moviesRented;").execute();
+		return userArrayList;
+	}
 	
-
+	public static void addRental(int movieId, int accountId) throws SQLException{
+		DatabaseConstants dbConstants = new DatabaseConstants();
+		dbConstants.makeDatabaseConnection();
+		dbConstants.connection.prepareStatement("INSERT INTO movie_store.rental(rental_type, movie_id, account_id, rental_date) VALUES (1, \""+movieId+"\", \""+accountId+"\", \""+new Date().getTime()+"\");").execute();
+		dbConstants.connection.prepareStatement("UPDATE movie_store.inventory SET movie_store.inventory.total_inventory = movie_store.inventory.total_inventory - 1 WHERE movie_store.inventory.movie_id = \""+movieId+"\";").execute();
+	}
+	
+	public static List<Item> getAllCustomersForReturns() throws SQLException{
+		DatabaseConstants dbConstants = new DatabaseConstants();
+		dbConstants.makeDatabaseConnection();
+		ResultSet results = dbConstants.connection.prepareStatement("SELECT first_name, last_name, address_id, phone, customer_id, account_id  FROM movie_store.customer WHERE movie_store.customer.account_id = (SELECT movie_store.rental.account_id FROM movie_store.rental WHERE movie_store.rental.return_date IS NOT NULL);").executeQuery();
+		ArrayList<Item> userArrayList = new ArrayList<Item>();
+		while(results.next()){
+			Customer customer = new Customer(results.getString(1), results.getString(2), results.getInt(3), results.getString(4), results.getInt(5), results.getInt(6));
+			userArrayList.add(customer);
+		}
+		return userArrayList;
+	}
+	
+	public static List<Item> getCurrentRentalsForUser(int customerId) throws SQLException{
+		DatabaseConstants dbConstants = new DatabaseConstants();
+		dbConstants.makeDatabaseConnection();
+		dbConstants.connection.prepareStatement("CREATE TEMPORARY TABLE IF NOT EXISTS moviesRented AS (SELECT title, format, movie_id FROM movie_store.movie AS x NATURAL JOIN (SELECT movie_id FROM (SELECT * FROM movie_store.rental WHERE movie_store.rental.return_date IS NOT NULL) AS x NATURAL JOIN (SELECT movie_store.customer.account_id FROM movie_store.customer WHERE movie_store.customer.account_id = \\"+customerId+"\") AS y) AS y);").execute();
+		ResultSet results = dbConstants.connection.prepareStatement("SELECT title, length, year, format, movie_id FROM movie_store.movie WHERE movie_store.movie.movie_id NOT IN (SELECT movie_id FROM moviesRented);").executeQuery();
+		ArrayList<Item> userArrayList = new ArrayList<Item>();
+		while(results.next()){
+			Movie movie = new Movie(results.getString(1), results.getInt(2), results.getInt(3), results.getString(4), results.getInt(5));
+			userArrayList.add(movie);
+		}
+		dbConstants.connection.prepareStatement("DROP TABLE IF EXISTS moviesRented;").execute();
+		return userArrayList;
+	}
+	
+	public static void returnRental(int accountId, int movieId) throws SQLException{
+		DatabaseConstants dbConstants = new DatabaseConstants();
+		dbConstants.makeDatabaseConnection();
+		dbConstants.connection.prepareStatement("UPDATE movie_store.rental SET movie_store.rental.return_date = \\"+new Date().getTime()+"\" WHERE movie_store.rental.account_id = \\"+accountId+"\";").execute();
+		dbConstants.connection.prepareStatement("UPDATE movie_store.inventory SET movie_store.inventory.total_inventory = movie_store.inventory.total_inventory + 1 WHERE movie_store.inventory.movie_id = \\"+movieId+"\";").execute();
+	}
+	
+	public static List<Item> getTopRentedMovies() throws SQLException{
+		DatabaseConstants dbConstants = new DatabaseConstants();
+		dbConstants.makeDatabaseConnection();
+		ResultSet results = dbConstants.connection.prepareStatement("SELECT title, length, year, format, movie_store.movie.movie_id, count(title) as cnt FROM (movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.movie_id FROM movie_store.rental) AS y) GROUP BY title ORDER BY cnt DESC LIMIT 5;").executeQuery();
+		ArrayList<Item> userArrayList = new ArrayList<Item>();
+		while(results.next()){
+			Movie movie = new Movie(results.getString(1), results.getInt(2), results.getInt(3), results.getString(4), results.getInt(5));
+			userArrayList.add(movie);
+		}
+		return userArrayList;
+	}
+	
+	public static List<Item> getLeastRentedMovies() throws SQLException{
+		DatabaseConstants dbConstants = new DatabaseConstants();
+		dbConstants.makeDatabaseConnection();
+		ResultSet results = dbConstants.connection.prepareStatement("SELECT title, length, year, format, movie_store.movie.movie_id, count(title) as cnt FROM (movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.movie_id FROM movie_store.rental) AS y) GROUP BY title ORDER BY cnt ASC LIMIT 5;").executeQuery();
+		ArrayList<Item> userArrayList = new ArrayList<Item>();
+		while(results.next()){
+			Movie movie = new Movie(results.getString(1), results.getInt(2), results.getInt(3), results.getString(4), results.getInt(5));
+			userArrayList.add(movie);
+		}
+		return userArrayList;
+	}
+	
+	public static List<Item> getTopMoviesCheckedOut() throws SQLException{
+		DatabaseConstants dbConstants = new DatabaseConstants();
+		dbConstants.makeDatabaseConnection();
+		ResultSet results = dbConstants.connection.prepareStatement("SELECT title, length, year, format, movie_store.movie.movie_id, count(title) as cnt FROM (movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.movie_id FROM movie_store.rental WHERE movie_store.rental.return_date IS NOT NULL) AS y) GROUP BY title ORDER BY cnt DESC LIMIT 5;").executeQuery();
+		ArrayList<Item> userArrayList = new ArrayList<Item>();
+		while(results.next()){
+			Movie movie = new Movie(results.getString(1), results.getInt(2), results.getInt(3), results.getString(4), results.getInt(5));
+			userArrayList.add(movie);
+		}
+		return userArrayList;
+	}
+	
+	public static List<Item> getOutstandingRentalsForAllUsers() throws SQLException{
+		DatabaseConstants dbConstants = new DatabaseConstants();
+		dbConstants.makeDatabaseConnection();
+		dbConstants.connection.prepareStatement("CREATE TEMPORARY TABLE IF NOT EXISTS moviesRented AS (SELECT title, account_id FROM movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.account_id, movie_store.rental.movie_id FROM movie_store.rental WHERE movie_store.rental.return_date IS NOT NULL) AS y);").execute();
+		ResultSet results = dbConstants.connection.prepareStatement("SELECT title, length, year, format, movie_id FROM FROM movie_store.customer, moviesRented WHERE movie_store.customer.account_id = moviesRented.account_id;").executeQuery();
+		ArrayList<Item> userArrayList = new ArrayList<Item>();
+		while(results.next()){
+			Movie movie = new Movie(results.getString(1), results.getInt(2), results.getInt(3), results.getString(4), results.getInt(5));
+			userArrayList.add(movie);
+		}
+		dbConstants.connection.prepareStatement("DROP TABLE IF EXISTS moviesRented;").execute();
+		return userArrayList;
+	}
+	
+	public static List<Item> getTopRenters() throws SQLException{
+		DatabaseConstants dbConstants = new DatabaseConstants();
+		dbConstants.makeDatabaseConnection();
+		dbConstants.connection.prepareStatement("CREATE TEMPORARY TABLE IF NOT EXISTS moviesRented AS (SELECT title, account_id FROM movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.account_id, movie_store.rental.movie_id FROM movie_store.rental) AS y);").execute();
+		ResultSet results = dbConstants.connection.prepareStatement("SELECT first_name, last_name, address_id, phone, customer_id, account_id, count(first_name) as cnt FROM movie_store.customer, moviesRented WHERE movie_store.customer.account_id = moviesRented.account_id GROUP BY first_name ORDER BY cnt DESC LIMIT 5;").executeQuery();
+		ArrayList<Item> userArrayList = new ArrayList<Item>();
+		while(results.next()){
+			Customer customer = new Customer(results.getString(1), results.getString(2), results.getInt(3), results.getString(4), results.getInt(5), results.getInt(6));
+			userArrayList.add(customer);
+		}
+		dbConstants.connection.prepareStatement("DROP TABLE IF EXISTS moviesRented;").execute();
+		return userArrayList;
+	}
 }

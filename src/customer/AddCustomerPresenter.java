@@ -33,7 +33,7 @@ public class AddCustomerPresenter implements IInnerPanelPresenter {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					DatabaseConstants.addUser(view.firstNameField.getText(), view.lastNameField.getText(), view.phoneField.getText(), view.addressField.getText(), view.cityField.getText(), view.stateField.getText(), view.zipCodeField.getText());
+					DatabaseConstants.addCustomer(view.firstNameField.getText(), view.lastNameField.getText(), view.phoneField.getText(), view.addressField.getText(), view.cityField.getText(), view.stateField.getText(), view.zipCodeField.getText());
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
