@@ -1,16 +1,17 @@
 package homeView;
 
+import interfaces.HomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
 import interfaces.ISelectActionViewListener;
 import movie.AddMoviePresenter;
 import movie.EditMoviePresenter;
-import movie.RentMoviePresenter;
-import movie.ReturnMoviePresenter;
-
-import common.RemoveItemPresenter;
-
+import movie.RemoveMoviePresenter;
+import rental.RentMoviePresenter;
+import rental.ReturnMoviePresenter;
+import stats.StatsViewPresenter;
 import customer.AddCustomerPresenter;
 import customer.EditCustomerPresenter;
+import customer.RemoveCustomerPresenter;
 
 public class MainViewController {
 	private final MainView view;
@@ -25,28 +26,48 @@ public class MainViewController {
 				if (selectedItem.equals("Create Customer")) {
 					innerPanelPresenter = new AddCustomerPresenter();
 				} else if (selectedItem.equals("Edit Customer")) {
-					innerPanelPresenter = new EditCustomerPresenter(view);
+					innerPanelPresenter = new EditCustomerPresenter();
 				} else if (selectedItem.equals("Remove Customer")) {
-					innerPanelPresenter = new RemoveItemPresenter();
+					innerPanelPresenter = new RemoveCustomerPresenter();
 				} else if (selectedItem.equals("Add Movie")) {
 					innerPanelPresenter = new AddMoviePresenter();
 				} else if (selectedItem.equals("Edit Movie")) {
 					innerPanelPresenter = new EditMoviePresenter();
 				} else if (selectedItem.equals("Remove Movie")) {
-					innerPanelPresenter = new RemoveItemPresenter();
-				} else if (selectedItem.equals("Rent Movie")) {
-					innerPanelPresenter = new RentMoviePresenter(view);
+					innerPanelPresenter = new RemoveMoviePresenter();
 				} else if (selectedItem.equals("Return Movie")) {
-					innerPanelPresenter = new ReturnMoviePresenter(view);
+					innerPanelPresenter = new ReturnMoviePresenter();
+				} else if (selectedItem.equals("Statics")) {
+					innerPanelPresenter = new StatsViewPresenter();
 				} else {
-					innerPanelPresenter = new RentMoviePresenter(view);
+					innerPanelPresenter = new RentMoviePresenter();
 				}
+
+				addViewListener();
 				refreshView();
 			}
 		});
 
-		innerPanelPresenter = new RentMoviePresenter(view);
+		innerPanelPresenter = new RentMoviePresenter();
+		addViewListener();
 		refreshView();
+	}
+
+	private void addViewListener() {
+		innerPanelPresenter.addViewListener(new HomeScreenViewListener() {
+			@Override
+			public void returnToHome() {
+				innerPanelPresenter = new RentMoviePresenter();
+				addViewListener();
+				view.setComboBox(0);
+				refreshView();
+			}
+
+			@Override
+			public void resetInnerPanelView() {
+				refreshView();
+			}
+		});
 	}
 
 	private void refreshView() {

@@ -4,19 +4,20 @@ import common.Item;
 
 public class Movie implements Item {
 
-	private int genreID;
-	private int length;
 	private String title;
+	private int length;
 	private int year;
 	private int movieID;
+	private int genreID;
 	private String format;
 
-	public Movie(int genreID, int length, String title, int year, int movieID, String format) {
-		this.genreID = genreID;
+	public Movie(String title, int length, int year, String format, int movieID, int genreID) {
+		this.title = title;
 		this.length = length;
 		this.year = year;
-		this.movieID = movieID;
 		this.format = format;
+		this.movieID = movieID;
+		this.genreID = genreID;
 	}
 
 	public int getGenreID() {

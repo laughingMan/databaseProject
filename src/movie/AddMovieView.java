@@ -1,9 +1,7 @@
 package movie;
 
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -13,31 +11,20 @@ import common.OkCancelView;
 public class AddMovieView extends OkCancelView {
 	private static final long serialVersionUID = 1L;
 
-	private JTextField titleField;
-	private JTextField genreField;
-	private JTextField lengthField;
-	private JTextField yearField;
-	private JTextField formatField;
-	private JButton addButton;
-	private JButton cancelButton;
+	private final JTextField titleField;
+	private final JTextField genreField;
+	private final JTextField lengthField;
+	private final JTextField yearField;
+	private final JTextField formatField;
 
 	public AddMovieView() {
-		layoutPanel();
-	}
-
-	private void layoutPanel() {
 		JLabel lengthLabel = new JLabel("Length: ");
 		lengthField = new JTextField(25);
-
-		// ----------------- //
-		// ----- Title ----- //
-		// ----------------- //
-		setActionTitleText("Add A New Movie");
-		JLabel actionTitle = getActionTitle();
 
 		// ---------------------- //
 		// ----- Movie Tile ----- //
 		// ---------------------- //
+		JLabel actionTitle = getActionTitle();
 		titleField = new JTextField(25);
 		layout.putConstraint(SpringLayout.WEST, titleField, 5, SpringLayout.EAST, lengthLabel);
 		layout.putConstraint(SpringLayout.NORTH, titleField, 40, SpringLayout.SOUTH, actionTitle);
@@ -98,23 +85,24 @@ public class AddMovieView extends OkCancelView {
 		layout.putConstraint(SpringLayout.NORTH, formatField, 5, SpringLayout.SOUTH, yearField);
 		add(formatField);
 
-		// ------------------- //
-		// ----- Buttons ----- //
-		// ------------------- //
-		setOkButtonLabel("Add");
-		setCancelButtonLabel("Cancel");
-
 		setMinimumSize(new Dimension(300, 200));
 		setVisible(true);
 	}
 
-	@Override
-	public void addOkButtonPressedListener(ActionListener listener) {
-		addButton.addActionListener(listener);
+	public void setMovie(String title, String length, String year, String format, String genreID) {
+		titleField.setText(title);
+		lengthField.setText(length);
+		yearField.setText(year);
+		formatField.setText(format);
+		genreField.setText(genreID);
 	}
 
-	@Override
-	public void addCancelButtonPressedListener(ActionListener listener) {
-		cancelButton.addActionListener(listener);
+	public void clearFields() {
+		setMovie("", "", "", "", "");
+	}
+
+	public boolean fieldsAreClear() {
+		return titleField.getText().isEmpty() && lengthField.getText().isEmpty() && yearField.getText().isEmpty() && formatField.getText().isEmpty()
+				&& genreField.getText().isEmpty();
 	}
 }

@@ -11,16 +11,16 @@ import javax.swing.JPanel;
 public class AddCustomerPresenter implements IInnerPanelPresenter {
 
 	private final CustomerModel model;
-	private final CreateCustomerView view;
+	private final AddCustomerView view;
 	private HomeScreenViewListener viewListener;
 
 	public AddCustomerPresenter() {
 		model = new CustomerModel();
-		view = new CreateCustomerView();
+		view = new AddCustomerView();
 
 		view.setActionTitleText("Add New Customer");
 		view.setOkButtonLabel("Add");
-		view.setCancelButtonLabel("Clear");
+		view.setCancelButtonLabel("Cancel");
 
 		setListeners();
 	}
@@ -31,25 +31,24 @@ public class AddCustomerPresenter implements IInnerPanelPresenter {
 			public void actionPerformed(ActionEvent e) {
 				// update model
 				// update database
-				// switch view to home screen
+				viewListener.returnToHome();
 			}
 		});
 
 		view.addCancelButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO: set cancel button to clear fields
-				if (!view.fieldsAreEmpty()) {
-					view.setCancelButtonLabel("Back");
-					view.clearFields();
-				} else {
-					viewListener.returnToHome();
-				}
-				// switch view to home screen
+				// if (!view.fieldsAreEmpty()) {
+				// view.setCancelButtonLabel("Back");
+				// view.clearFields();
+				// } else {
+				viewListener.returnToHome();
+				// }
 			}
 		});
 	}
 
+	@Override
 	public void addViewListener(HomeScreenViewListener viewListener) {
 		this.viewListener = viewListener;
 	}

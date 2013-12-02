@@ -8,7 +8,7 @@ import javax.swing.SpringLayout;
 
 import common.OkCancelView;
 
-public class CreateCustomerView extends OkCancelView {
+public class AddCustomerView extends OkCancelView {
 	private static final long serialVersionUID = 1L;
 
 	private final JTextField firstNameField;
@@ -19,7 +19,7 @@ public class CreateCustomerView extends OkCancelView {
 	private final JTextField zipCodeField;
 	private final JTextField phoneField;
 
-	public CreateCustomerView() {
+	public AddCustomerView() {
 
 		// ---------------------- //
 		// ----- First Name ----- //

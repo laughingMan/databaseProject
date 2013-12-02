@@ -1,13 +1,15 @@
-package movie;
+package rental;
 
-import homeView.MainView;
+import interfaces.HomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
 
 import javax.swing.JPanel;
 
 public class ReturnMoviePresenter implements IInnerPanelPresenter {
 
-	public ReturnMoviePresenter(MainView view) {
+	private HomeScreenViewListener homeViewListener;
+
+	public ReturnMoviePresenter() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -15,6 +17,11 @@ public class ReturnMoviePresenter implements IInnerPanelPresenter {
 	public JPanel getView() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void addViewListener(HomeScreenViewListener actionListener) {
+		this.homeViewListener = actionListener;
 	}
 
 }

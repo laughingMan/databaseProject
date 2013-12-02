@@ -33,6 +33,8 @@ public class SelectItemView extends OkCancelView {
 		table.setFillsViewportHeight(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table.setRowSelectionAllowed(true);
+
+		// table selection model
 		ListSelectionModel selectionModel = table.getSelectionModel();
 		selectionModel.addListSelectionListener(new ListSelectionListener() {
 			@Override
@@ -44,13 +46,14 @@ public class SelectItemView extends OkCancelView {
 		});
 		table.setSelectionModel(selectionModel);
 
-		// Customer table view
+		// table scroll view
 		sourceScrollPane = new JScrollPane(table);
 		sourceScrollPane.setPreferredSize(new Dimension(500, 300));
 		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, sourceScrollPane, 0, SpringLayout.HORIZONTAL_CENTER, this);
 		layout.putConstraint(SpringLayout.NORTH, sourceScrollPane, 50, SpringLayout.SOUTH, getActionTitle());
 		add(sourceScrollPane);
 
+		// table label
 		tableLabel = new JLabel();
 		tableLabel.setFont(new Font(this.getFont().getFamily(), Font.PLAIN, 20));
 		layout.putConstraint(SpringLayout.WEST, tableLabel, 0, SpringLayout.WEST, sourceScrollPane);

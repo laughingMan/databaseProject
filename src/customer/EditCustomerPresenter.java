@@ -1,6 +1,6 @@
 package customer;
 
-import homeView.MainView;
+import interfaces.HomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
 import interfaces.ITableChooserListener;
 
@@ -17,20 +17,19 @@ import common.OkCancelView;
 public class EditCustomerPresenter implements IInnerPanelPresenter {
 
 	private final CustomerModel model;
-	private final CreateCustomerView editView;
+	private final AddCustomerView editView;
 	private final SelectCustomerView selectionView;
-	private final OkCancelView currentView;
+	private OkCancelView currentView;
 	private Customer selectedCustomer;
-	private final MainView rootView;
 
 	private static final String RENT_MOVIE_ACTION_TITLE = "Edit Customer";
 	private static final String EDIT_CUSTOMER_OK_BUTTON = "Edit";
 	private static final String EDIT_CUSTOMER_CANCEL_BUTTON = "Back";
+	private HomeScreenViewListener homeViewListener;
 
-	public EditCustomerPresenter(MainView innerPanelView) {
-		rootView = innerPanelView;
+	public EditCustomerPresenter() {
 		model = new CustomerModel();
-		editView = new CreateCustomerView();
+		editView = new AddCustomerView();
 		selectionView = new SelectCustomerView();
 		currentView = selectionView;
 
@@ -46,14 +45,33 @@ public class EditCustomerPresenter implements IInnerPanelPresenter {
 		selectionView.addOkButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switchToEditCustomerView();
+				setCustomer();
+				currentView = editView;
+				homeViewListener.resetInnerPanelView();
+			}
+		});
+
+		selectionView.addCancelButtonPressedListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				homeViewListener.returnToHome();
+			}
+		});
+
+		editView.addOkButtonPressedListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// update model
+				// update database
+				homeViewListener.returnToHome();
 			}
 		});
 
 		editView.addCancelButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switchToSelectCustomerView();
+				currentView = selectionView;
+				homeViewListener.resetInnerPanelView();
 			}
 		});
 
@@ -64,15 +82,6 @@ public class EditCustomerPresenter implements IInnerPanelPresenter {
 				selectionView.enableOkButton(selectedValue.size() > 0);
 			}
 		});
-	}
-
-	private void switchToSelectCustomerView() {
-		rootView.setInnerPanel(selectionView);
-	}
-
-	private void switchToEditCustomerView() {
-		setCustomer();
-		rootView.setInnerPanel(editView);
 	}
 
 	private void setCustomer() {
@@ -98,5 +107,10 @@ public class EditCustomerPresenter implements IInnerPanelPresenter {
 	@Override
 	public JPanel getView() {
 		return currentView;
+	}
+
+	@Override
+	public void addViewListener(HomeScreenViewListener homeScreenViewListener) {
+		this.homeViewListener = homeScreenViewListener;
 	}
 }

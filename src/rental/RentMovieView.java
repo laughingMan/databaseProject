@@ -1,4 +1,4 @@
-package movie;
+package rental;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -19,7 +19,6 @@ import common.OkCancelView;
 
 public class RentMovieView extends OkCancelView {
 	private static final long serialVersionUID = 1L;
-	private ActionListener actionListener;
 	private final JLabel nameLabel;
 	private final JLabel phoneNumberLabel;
 	private final JLabel addressLabel;
@@ -40,13 +39,8 @@ public class RentMovieView extends OkCancelView {
 	private static final String DEFAULT_SOURCE_CHOICE_LABEL = "Available";
 	private static final String DEFAULT_DEST_CHOICE_LABEL = "Chosen";
 	private static final String CUSTOMER_INFO_TITLE = "Customer Info";
-	private static final String RENT_MOVIE_OK_BUTTON = "Rent";
-	private static final String RENT_MOVIE_CANCEL_BUTTON = "Back";
-	private static final String RENT_MOVIE_TITLE = "Rent Movie";
 
 	public RentMovieView() {
-
-		setActionTitleText(RENT_MOVIE_TITLE);
 		JLabel actionTitle = getActionTitle();
 		layout.putConstraint(SpringLayout.WEST, actionTitle, 5, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, actionTitle, 5, SpringLayout.NORTH, this);
@@ -137,22 +131,6 @@ public class RentMovieView extends OkCancelView {
 		layout.putConstraint(SpringLayout.SOUTH, destLabel, -5, SpringLayout.NORTH, destScrollPane);
 		destLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		add(destLabel);
-
-		setOkButtonLabel(RENT_MOVIE_OK_BUTTON);
-		addOkButtonPressedListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				viewListener.okPressed();
-			}
-		});
-
-		setCancelButtonLabel(RENT_MOVIE_CANCEL_BUTTON);
-		addCancelButtonPressedListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				viewListener.cancelPressed();
-			}
-		});
 	}
 
 	public void setCustomer(String name, String address, String phoneNumber, String accountID, String membershipID) {

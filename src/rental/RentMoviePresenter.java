@@ -1,6 +1,6 @@
-package movie;
+package rental;
 
-import homeView.MainView;
+import interfaces.HomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
 import interfaces.ITableChooserListener;
 
@@ -22,17 +22,16 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 
 	private final SelectItemView selectionView;
 	private final RentMovieView rentalView;
-	private final OkCancelView currentView;
-	private final MainView rootView;
+	private OkCancelView currentView;
 	private final CustomerModel model;
 	private Customer selectedCustomer;
 
 	private static final String RENT_MOVIE_ACTION_TITLE = "Rent Movie";
 	private static final String RENT_MOVIE_OK_BUTTON = "Rent";
 	private static final String RENT_MOVIE_CANCEL_BUTTON = "Back";
+	private HomeScreenViewListener homeViewListener;
 
-	public RentMoviePresenter(MainView innerPanelView) {
-		rootView = innerPanelView;
+	public RentMoviePresenter() {
 		model = new CustomerModel();
 		selectionView = new SelectCustomerView();
 		rentalView = new RentMovieView();
@@ -55,14 +54,16 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 		selectionView.addOkButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switchToRentMovieView();
+				setCustomer();
+				currentView = rentalView;
+				homeViewListener.resetInnerPanelView();
 			}
 		});
 
 		selectionView.addCancelButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// switch view to home screen
+				homeViewListener.returnToHome();
 			}
 		});
 
@@ -71,14 +72,15 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 			public void actionPerformed(ActionEvent e) {
 				// update model
 				// update database
-				// switch view to home screen
+				homeViewListener.returnToHome();
 			}
 		});
 
 		rentalView.addCancelButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switchToSelectCustomerView();
+				currentView = selectionView;
+				homeViewListener.resetInnerPanelView();
 			}
 		});
 
@@ -89,15 +91,6 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 				selectionView.enableOkButton(selectedValue.size() > 0);
 			}
 		});
-	}
-
-	private void switchToSelectCustomerView() {
-		rootView.setInnerPanel(selectionView);
-	}
-
-	private void switchToRentMovieView() {
-		setCustomer();
-		rootView.setInnerPanel(rentalView);
 	}
 
 	private void setCustomer() {
@@ -113,5 +106,10 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 	@Override
 	public JPanel getView() {
 		return currentView;
+	}
+
+	@Override
+	public void addViewListener(HomeScreenViewListener viewListener) {
+		this.homeViewListener = viewListener;
 	}
 }

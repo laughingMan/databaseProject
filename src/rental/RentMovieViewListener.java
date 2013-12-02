@@ -1,4 +1,4 @@
-package movie;
+package rental;
 
 import java.util.List;
 

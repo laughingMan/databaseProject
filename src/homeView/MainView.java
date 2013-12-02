@@ -54,4 +54,11 @@ public class MainView extends JPanel {
 		revalidate();
 		repaint();
 	}
+
+	public void setComboBox(int index) {
+		actionComboBox.setSelectedIndex(index);
+
+		revalidate();
+		repaint();
+	}
 }

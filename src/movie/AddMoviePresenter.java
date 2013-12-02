@@ -1,5 +1,6 @@
 package movie;
 
+import interfaces.HomeScreenViewListener;
 import interfaces.IInnerPanelPresenter;
 
 import java.awt.event.ActionEvent;
@@ -11,10 +12,11 @@ public class AddMoviePresenter implements IInnerPanelPresenter {
 
 	private final AddMovieView view;
 	private final MovieModel model;
+	private HomeScreenViewListener homeViewListener;
 
-	private static final String CREATE_CUSTOMER_TITLE = "Add A New Customer";
+	private static final String CREATE_CUSTOMER_TITLE = "Add A New Movie";
 	private static final String CREATE_CUSTOMER_OK_BUTTON = "Add";
-	private static final String CREATE_CUSTOMER_CANCEL_BUTTON = "Clear";
+	private static final String CREATE_CUSTOMER_CANCEL_BUTTON = "Cancel";
 
 	public AddMoviePresenter() {
 		model = new MovieModel();
@@ -32,15 +34,19 @@ public class AddMoviePresenter implements IInnerPanelPresenter {
 			public void actionPerformed(ActionEvent e) {
 				// update model
 				// update database
-				// return user to Home screen
+				homeViewListener.returnToHome();
 			}
 		});
 
 		view.addCancelButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// clear fields
-				// return user to home screen
+				// if (!view.fieldsAreClear()) {
+				// view.clearFields();
+				// view.setCancelButtonLabel("Back");
+				// } else {
+				homeViewListener.returnToHome();
+				// }
 			}
 		});
 	}
@@ -48,5 +54,10 @@ public class AddMoviePresenter implements IInnerPanelPresenter {
 	@Override
 	public JPanel getView() {
 		return view;
+	}
+
+	@Override
+	public void addViewListener(HomeScreenViewListener homeScreenViewListener) {
+		this.homeViewListener = homeScreenViewListener;
 	}
 }
