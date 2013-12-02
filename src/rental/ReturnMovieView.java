@@ -29,9 +29,9 @@ public class ReturnMovieView extends SelectItemView {
 	private List<Item> createMovies() {
 		List<Item> movies = new ArrayList<Item>();
 
-		Movie movie1 = new Movie("Ghostbusters", 123, 1980, "vhs", 123, 1);
-		Movie movie2 = new Movie("Ghostbusters II", 234, 1982, "dvd", 234, 1);
-		Movie movie3 = new Movie("Ghostbusters III", 345, 1983, "bluray", 345, 1);
+		Movie movie1 = new Movie("Ghostbusters", 123, 1980, "vhs", 1);
+		Movie movie2 = new Movie("Ghostbusters II", 234, 1982, "dvd", 2);
+		Movie movie3 = new Movie("Ghostbusters III", 345, 1983, "bluray", 3);
 
 		movies.add(movie1);
 		movies.add(movie2);

@@ -11,11 +11,10 @@ import common.OkCancelView;
 public class AddMovieView extends OkCancelView {
 	private static final long serialVersionUID = 1L;
 
-	private final JTextField titleField;
-	private final JTextField genreField;
-	private final JTextField lengthField;
-	private final JTextField yearField;
-	private final JTextField formatField;
+	protected final JTextField titleField;
+	protected final JTextField lengthField;
+	protected final JTextField yearField;
+	protected final JTextField formatField;
 
 	public AddMovieView() {
 		JLabel lengthLabel = new JLabel("Length: ");
@@ -35,28 +34,15 @@ public class AddMovieView extends OkCancelView {
 		layout.putConstraint(SpringLayout.NORTH, titleLabel, 40, SpringLayout.SOUTH, actionTitle);
 		add(titleLabel);
 
-		// ----------------- //
-		// ----- Genre ----- //
-		// ----------------- //
-		genreField = new JTextField(25);
-		layout.putConstraint(SpringLayout.WEST, genreField, 5, SpringLayout.EAST, lengthLabel);
-		layout.putConstraint(SpringLayout.NORTH, genreField, 5, SpringLayout.SOUTH, titleField);
-		add(genreField);
-
-		JLabel genreLabel = new JLabel("Genre: ");
-		layout.putConstraint(SpringLayout.EAST, genreLabel, -5, SpringLayout.WEST, genreField);
-		layout.putConstraint(SpringLayout.NORTH, genreLabel, 5, SpringLayout.SOUTH, titleField);
-		add(genreLabel);
-
 		// ------------------- //
 		// ----- Length ----- //
 		// ------------------- //
 		layout.putConstraint(SpringLayout.WEST, lengthLabel, 5, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, lengthLabel, 5, SpringLayout.SOUTH, genreField);
+		layout.putConstraint(SpringLayout.NORTH, lengthLabel, 5, SpringLayout.SOUTH, titleField);
 		add(lengthLabel);
 
 		layout.putConstraint(SpringLayout.WEST, lengthField, 5, SpringLayout.EAST, lengthLabel);
-		layout.putConstraint(SpringLayout.NORTH, lengthField, 5, SpringLayout.SOUTH, genreField);
+		layout.putConstraint(SpringLayout.NORTH, lengthField, 5, SpringLayout.SOUTH, titleField);
 		add(lengthField);
 
 		// ---------------- //
@@ -80,7 +66,7 @@ public class AddMovieView extends OkCancelView {
 		layout.putConstraint(SpringLayout.NORTH, formatLabel, 5, SpringLayout.SOUTH, yearField);
 		add(formatLabel);
 
-		formatField = new JTextField(2);
+		formatField = new JTextField(20);
 		layout.putConstraint(SpringLayout.WEST, formatField, 5, SpringLayout.EAST, formatLabel);
 		layout.putConstraint(SpringLayout.NORTH, formatField, 5, SpringLayout.SOUTH, yearField);
 		add(formatField);
@@ -89,20 +75,18 @@ public class AddMovieView extends OkCancelView {
 		setVisible(true);
 	}
 
-	public void setMovie(String title, String length, String year, String format, String genreID) {
+	public void setMovie(String title, String length, String year, String format) {
 		titleField.setText(title);
 		lengthField.setText(length);
 		yearField.setText(year);
 		formatField.setText(format);
-		genreField.setText(genreID);
 	}
 
 	public void clearFields() {
-		setMovie("", "", "", "", "");
+		setMovie("", "", "", "");
 	}
 
 	public boolean fieldsAreClear() {
-		return titleField.getText().isEmpty() && lengthField.getText().isEmpty() && yearField.getText().isEmpty() && formatField.getText().isEmpty()
-				&& genreField.getText().isEmpty();
+		return titleField.getText().isEmpty() && lengthField.getText().isEmpty() && yearField.getText().isEmpty() && formatField.getText().isEmpty();
 	}
 }

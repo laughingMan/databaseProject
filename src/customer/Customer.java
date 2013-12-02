@@ -9,16 +9,14 @@ public class Customer implements Item {
 	private String phoneNumber;
 	private int customerID;
 	private int accountID;
-	private int memebershipID;
 
-	public Customer(String firstName, String lastName, int addressID, String phoneNumber, int customerID, int accountID, int membershipID) {
+	public Customer(String firstName, String lastName, int addressID, String phoneNumber, int customerID, int accountID) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.addressID = addressID;
 		this.phoneNumber = phoneNumber;
 		this.customerID = customerID;
 		this.accountID = accountID;
-		memebershipID = membershipID;
 	}
 
 	public String getFirstName() {
@@ -67,14 +65,6 @@ public class Customer implements Item {
 
 	public void setAccountID(int accountID) {
 		this.accountID = accountID;
-	}
-
-	public int getMemebershipID() {
-		return memebershipID;
-	}
-
-	public void setMemebershipID(int memebershipID) {
-		this.memebershipID = memebershipID;
 	}
 
 	@Override

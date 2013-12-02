@@ -1,8 +1,10 @@
 package movie;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.DatabaseConstants;
 import common.Item;
 import common.SelectItemView;
 
@@ -21,20 +23,10 @@ public class SelectMovieView extends SelectItemView {
 		setOkButtonLabel(SELECT_MOVIE_OK_BUTTON);
 		setCancelButtonLabel(SELECT_MOVIE_CANCEL_BUTTON);
 
-		setCustomerList(createMovies());
-	}
-
-	private List<Item> createMovies() {
-		List<Item> movies = new ArrayList<Item>();
-
-		Movie movie1 = new Movie("Ghostbusters", 123, 1980, "vhs", 123, 1);
-		Movie movie2 = new Movie("Ghostbusters II", 234, 1982, "dvd", 234, 1);
-		Movie movie3 = new Movie("Ghostbusters III", 345, 1983, "bluray", 345, 1);
-
-		movies.add(movie1);
-		movies.add(movie2);
-		movies.add(movie3);
-
-		return movies;
+		try {
+			setCustomerList(DatabaseConstants.getAllMovies());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

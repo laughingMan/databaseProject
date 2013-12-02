@@ -11,13 +11,13 @@ import common.OkCancelView;
 public class AddCustomerView extends OkCancelView {
 	private static final long serialVersionUID = 1L;
 
-	private final JTextField firstNameField;
-	private final JTextField lastNameField;
-	private final JTextField addressField;
-	private final JTextField cityField;
-	private final JTextField stateField;
-	private final JTextField zipCodeField;
-	private final JTextField phoneField;
+	protected final JTextField firstNameField;
+	protected final JTextField lastNameField;
+	protected final JTextField addressField;
+	protected final JTextField cityField;
+	protected final JTextField stateField;
+	protected final JTextField zipCodeField;
+	protected final JTextField phoneField;
 
 	public AddCustomerView() {
 
@@ -117,8 +117,7 @@ public class AddCustomerView extends OkCancelView {
 		setVisible(true);
 	}
 
-	public void setCustomer(String firstName, String lastName, String address, String city, String state, String zip, String phoneNumber, String accountID,
-			String memebershipID) {
+	public void setCustomer(String firstName, String lastName, String address, String city, String state, String zip, String phoneNumber, String accountID) {
 		firstNameField.setText(firstName);
 		lastNameField.setText(lastName);
 		addressField.setText(address);
@@ -129,7 +128,7 @@ public class AddCustomerView extends OkCancelView {
 	}
 
 	public void clearFields() {
-		setCustomer("", "", "", "", "", "", "", "", "");
+		setCustomer("", "", "", "", "", "", "", "");
 	}
 
 	public boolean fieldsAreEmpty() {

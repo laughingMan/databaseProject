@@ -5,8 +5,11 @@ import interfaces.IInnerPanelPresenter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JPanel;
+
+import common.DatabaseConstants;
 
 public class AddCustomerPresenter implements IInnerPanelPresenter {
 
@@ -29,8 +32,11 @@ public class AddCustomerPresenter implements IInnerPanelPresenter {
 		view.addOkButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// update model
-				// update database
+				try {
+					DatabaseConstants.addUser(view.firstNameField.getText(), view.lastNameField.getText(), view.phoneField.getText(), view.addressField.getText(), view.cityField.getText(), view.stateField.getText(), view.zipCodeField.getText());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				viewListener.returnToHome();
 			}
 		});

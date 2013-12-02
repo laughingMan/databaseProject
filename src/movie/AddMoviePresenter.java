@@ -5,8 +5,11 @@ import interfaces.IInnerPanelPresenter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JPanel;
+
+import common.DatabaseConstants;
 
 public class AddMoviePresenter implements IInnerPanelPresenter {
 
@@ -32,8 +35,13 @@ public class AddMoviePresenter implements IInnerPanelPresenter {
 		view.addOkButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// update model
-				// update database
+				try {
+					DatabaseConstants.addMovie(Integer.valueOf(view.lengthField.getText()), view.titleField.getText(), Integer.valueOf(view.yearField.getText()), view.formatField.getText(), 100);
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				homeViewListener.returnToHome();
 			}
 		});

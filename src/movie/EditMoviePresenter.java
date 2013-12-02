@@ -6,10 +6,12 @@ import interfaces.ITableChooserListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JPanel;
 
+import common.DatabaseConstants;
 import common.Item;
 import common.OkCancelView;
 
@@ -51,8 +53,11 @@ public class EditMoviePresenter implements IInnerPanelPresenter {
 		editView.addOkButtonPressedListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// update model
-				// update database
+				try {
+					DatabaseConstants.updateMovie(editView.titleField.getText(), Integer.valueOf(editView.lengthField.getText()), Integer.valueOf(editView.yearField.getText()), editView.formatField.getText(), selectedMovie.getMovieId());
+				} catch (NumberFormatException | SQLException e1) {
+					e1.printStackTrace();
+				}
 				homeViewListener.returnToHome();
 			}
 		});
@@ -88,9 +93,8 @@ public class EditMoviePresenter implements IInnerPanelPresenter {
 		String length = Integer.toString(selectedMovie.getLength());
 		String year = Integer.toString(selectedMovie.getYear());
 		String format = selectedMovie.getFormat();
-		String genreID = Integer.toString(selectedMovie.getGenreID());
 
-		editView.setMovie(title, length, year, format, genreID);
+		editView.setMovie(title, length, year, format);
 	}
 
 	@Override

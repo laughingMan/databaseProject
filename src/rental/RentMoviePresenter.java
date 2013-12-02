@@ -6,14 +6,16 @@ import interfaces.ITableChooserListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JPanel;
 
+import common.DatabaseConstants;
 import common.Item;
 import common.OkCancelView;
 import common.SelectItemView;
-
+import common.UserInfo;
 import customer.Customer;
 import customer.CustomerModel;
 import customer.SelectCustomerView;
@@ -30,6 +32,7 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 	private static final String RENT_MOVIE_OK_BUTTON = "Rent";
 	private static final String RENT_MOVIE_CANCEL_BUTTON = "Back";
 	private HomeScreenViewListener homeViewListener;
+	private UserInfo userInfo;
 
 	public RentMoviePresenter() {
 		model = new CustomerModel();
@@ -46,8 +49,12 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 	}
 
 	private String getAddressForID(int addressID) {
-		// TODO: remove and make database call
-		return "123 Address Ln.";
+		try {
+			userInfo = DatabaseConstants.getUserInfo(selectedCustomer.getFirstName(), selectedCustomer.getLastName());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return userInfo.getAddress();
 	}
 
 	private void addListeners() {
@@ -98,9 +105,8 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 		String address = getAddressForID(selectedCustomer.getAddressID());
 		String phoneNumber = selectedCustomer.getPhoneNumber();
 		String accountID = Integer.toString(selectedCustomer.getAccountID());
-		String memebershipID = Integer.toString(selectedCustomer.getMemebershipID());
 
-		rentalView.setCustomer(name, address, phoneNumber, accountID, memebershipID);
+		rentalView.setCustomer(name, address, phoneNumber, accountID);
 	}
 
 	@Override

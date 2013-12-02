@@ -133,12 +133,11 @@ public class RentMovieView extends OkCancelView {
 		add(destLabel);
 	}
 
-	public void setCustomer(String name, String address, String phoneNumber, String accountID, String membershipID) {
+	public void setCustomer(String name, String address, String phoneNumber, String accountID) {
 		nameLabel.setText(name);
 		addressLabel.setText(address);
 		phoneNumberLabel.setText(phoneNumber);
 		accountLabel.setText("Acct #: " + accountID);
-		membershipLabel.setText("Acct Type: " + membershipID);
 	}
 
 	public void addViewListener(RentMovieViewListener viewListener) {

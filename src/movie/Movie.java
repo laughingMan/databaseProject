@@ -7,26 +7,17 @@ public class Movie implements Item {
 	private String title;
 	private int length;
 	private int year;
-	private int movieID;
-	private int genreID;
 	private String format;
+	private int movieId;
 
-	public Movie(String title, int length, int year, String format, int movieID, int genreID) {
+	public Movie(String title, int length, int year, String format, int movieId) {
 		this.title = title;
 		this.length = length;
 		this.year = year;
 		this.format = format;
-		this.movieID = movieID;
-		this.genreID = genreID;
+		this.movieId = movieId;
 	}
 
-	public int getGenreID() {
-		return genreID;
-	}
-
-	public void setGenreID(int genreID) {
-		this.genreID = genreID;
-	}
 
 	public int getLength() {
 		return length;
@@ -52,14 +43,6 @@ public class Movie implements Item {
 		this.year = year;
 	}
 
-	public int getMovieID() {
-		return movieID;
-	}
-
-	public void setMovieID(int movieID) {
-		this.movieID = movieID;
-	}
-
 	public String getFormat() {
 		return format;
 	}
@@ -73,8 +56,20 @@ public class Movie implements Item {
 		return title;
 	}
 
+
 	@Override
 	public String getID() {
-		return Integer.toString(movieID);
+		return String.valueOf(movieId);
 	}
+
+
+	public int getMovieId() {
+		return movieId;
+	}
+
+
+	public void setMovieId(int movieId) {
+		this.movieId = movieId;
+	}
+
 }
