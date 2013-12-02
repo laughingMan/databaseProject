@@ -31,7 +31,6 @@ public class DatabaseConstants {
 			resultSet = statement.executeQuery("SELECT VERSION()");
 
 			if (resultSet.next()) {
-				System.out.println("Connected");
 			}
 
 		} catch (SQLException ex) {
@@ -235,7 +234,7 @@ public class DatabaseConstants {
 		dbConstants.makeDatabaseConnection();
 		ResultSet results = dbConstants.connection
 				.prepareStatement(
-						"SELECT title, length, year, format, movie_store.movie.movie_id, count(title) as cnt FROM (movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.movie_id FROM movie_store.rental) AS y) GROUP BY title ORDER BY cnt DESC LIMIT 5;")
+						"SELECT title, length, year, format, movie_id, count(title) as cnt FROM (movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.movie_id FROM movie_store.rental) AS y) GROUP BY title ORDER BY cnt DESC LIMIT 5;")
 				.executeQuery();
 		ArrayList<Item> userArrayList = new ArrayList<Item>();
 		while (results.next()) {
@@ -250,7 +249,7 @@ public class DatabaseConstants {
 		dbConstants.makeDatabaseConnection();
 		ResultSet results = dbConstants.connection
 				.prepareStatement(
-						"SELECT title, length, year, format, movie_store.movie.movie_id, count(title) as cnt FROM (movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.movie_id FROM movie_store.rental) AS y) GROUP BY title ORDER BY cnt ASC LIMIT 5;")
+						"SELECT title, length, year, format, movie_id, count(title) as cnt FROM (movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.movie_id FROM movie_store.rental) AS y) GROUP BY title ORDER BY cnt ASC LIMIT 5;")
 				.executeQuery();
 		ArrayList<Item> userArrayList = new ArrayList<Item>();
 		while (results.next()) {
@@ -265,7 +264,7 @@ public class DatabaseConstants {
 		dbConstants.makeDatabaseConnection();
 		ResultSet results = dbConstants.connection
 				.prepareStatement(
-						"SELECT title, length, year, format, movie_store.movie.movie_id, count(title) as cnt FROM (movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.movie_id FROM movie_store.rental WHERE movie_store.rental.return_date IS NOT NULL) AS y) GROUP BY title ORDER BY cnt DESC LIMIT 5;")
+						"SELECT title, length, year, format, movie_id, count(title) as cnt FROM (movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.movie_id FROM movie_store.rental WHERE movie_store.rental.return_date IS NOT NULL) AS y) GROUP BY title ORDER BY cnt DESC LIMIT 5;")
 				.executeQuery();
 		ArrayList<Item> userArrayList = new ArrayList<Item>();
 		while (results.next()) {
@@ -280,16 +279,17 @@ public class DatabaseConstants {
 		dbConstants.makeDatabaseConnection();
 		dbConstants.connection
 				.prepareStatement(
-						"CREATE TEMPORARY TABLE IF NOT EXISTS moviesRented AS (SELECT title, account_id FROM movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.account_id, movie_store.rental.movie_id FROM movie_store.rental WHERE movie_store.rental.return_date IS NOT NULL) AS y);")
+						"CREATE TEMPORARY TABLE IF NOT EXISTS moviesRented AS (SELECT title, account_id FROM movie_store.movie AS x NATURAL JOIN (SELECT movie_store.rental.account_id, movie_store.rental.movie_id FROM movie_store.rental WHERE movie_store.rental.return_date IS NULL) AS y);")
 				.execute();
 		ResultSet results = dbConstants.connection
 				.prepareStatement(
-						"SELECT title, length, year, format, movie_id FROM FROM movie_store.customer, moviesRented WHERE movie_store.customer.account_id = moviesRented.account_id;")
+						"SELECT first_name, last_name, address_id, phone, movie_store.customer.customer_id, movie_store.customer.account_id, count(customer_id) as cnt FROM movie_store.customer, moviesRented WHERE movie_store.customer.account_id = moviesRented.account_id GROUP BY customer_id ORDER BY cnt DESC LIMIT 5;")
 				.executeQuery();
 		ArrayList<Item> userArrayList = new ArrayList<Item>();
 		while (results.next()) {
-			Movie movie = new Movie(results.getString(1), results.getInt(2), results.getInt(3), results.getString(4), results.getInt(5));
-			userArrayList.add(movie);
+			Customer customer = new Customer(results.getString(1), results.getString(2), results.getInt(3), results.getString(4), results.getInt(5),
+					results.getInt(6));
+			userArrayList.add(customer);
 		}
 		dbConstants.connection.prepareStatement("DROP TABLE IF EXISTS moviesRented;").execute();
 		return userArrayList;
@@ -304,7 +304,7 @@ public class DatabaseConstants {
 				.execute();
 		ResultSet results = dbConstants.connection
 				.prepareStatement(
-						"SELECT first_name, last_name, address_id, phone, customer_id, account_id, count(first_name) as cnt FROM movie_store.customer, moviesRented WHERE movie_store.customer.account_id = moviesRented.account_id GROUP BY first_name ORDER BY cnt DESC LIMIT 5;")
+						"SELECT first_name, last_name, address_id, phone, movie_store.customer.customer_id, movie_store.customer.account_id, count(movie_store.customer.customer_id) as cnt FROM movie_store.customer, moviesRented WHERE movie_store.customer.account_id = moviesRented.account_id GROUP BY movie_store.customer.customer_id ORDER BY cnt DESC LIMIT 5;")
 				.executeQuery();
 		ArrayList<Item> userArrayList = new ArrayList<Item>();
 		while (results.next()) {

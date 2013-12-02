@@ -76,7 +76,7 @@ public class StatsView extends OkCancelView {
 
 	public void setTableOne(List<Item> topRentals) {
 		tableOneModel.setItems(topRentals);
-		tableOne.setModel(tableTwoModel);
+		tableOne.setModel(tableOneModel);
 	}
 
 	public void setTableTwo(List<Item> leastRented) {
@@ -86,6 +86,6 @@ public class StatsView extends OkCancelView {
 
 	public void setTableThree(List<Item> topUnreturned) {
 		tableThreeModel.setItems(topUnreturned);
-		tableThree.setModel(tableTwoModel);
+		tableThree.setModel(tableThreeModel);
 	}
 }
