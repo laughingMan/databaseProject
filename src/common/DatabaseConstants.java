@@ -156,7 +156,7 @@ public class DatabaseConstants {
 								+ title + "\" AND movie_store.movie.format = \"" + format + "\");").executeUpdate();
 	}
 
-	public static List<Item> getPossibleRentalsForUser(int customerId) throws SQLException {
+	public static List<String> getPossibleRentalsForUser(int customerId) throws SQLException {
 		DatabaseConstants dbConstants = new DatabaseConstants();
 		dbConstants.makeDatabaseConnection();
 		dbConstants.connection
@@ -167,10 +167,9 @@ public class DatabaseConstants {
 				.prepareStatement(
 						"SELECT title, length, year, format, movie_id FROM movie_store.movie WHERE movie_store.movie.movie_id NOT IN (SELECT movie_id FROM moviesRented);")
 				.executeQuery();
-		ArrayList<Item> userArrayList = new ArrayList<Item>();
+		ArrayList<String> userArrayList = new ArrayList<String>();
 		while (results.next()) {
-			Movie movie = new Movie(results.getString(1), results.getInt(2), results.getInt(3), results.getString(4), results.getInt(5));
-			userArrayList.add(movie);
+			userArrayList.add(results.getString(1));
 		}
 		dbConstants.connection.prepareStatement("DROP TABLE IF EXISTS moviesRented;").execute();
 		return userArrayList;
@@ -203,7 +202,7 @@ public class DatabaseConstants {
 		return userArrayList;
 	}
 
-	public static List<Item> getCurrentRentalsForUser(int customerId) throws SQLException {
+	public static List<String> getCurrentRentalsForUser(int customerId) throws SQLException {
 		DatabaseConstants dbConstants = new DatabaseConstants();
 		dbConstants.makeDatabaseConnection();
 		dbConstants.connection
@@ -214,10 +213,9 @@ public class DatabaseConstants {
 				.prepareStatement(
 						"SELECT title, length, year, format, movie_id FROM movie_store.movie WHERE movie_store.movie.movie_id NOT IN (SELECT movie_id FROM moviesRented);")
 				.executeQuery();
-		ArrayList<Item> userArrayList = new ArrayList<Item>();
+		ArrayList<String> userArrayList = new ArrayList<String>();
 		while (results.next()) {
-			Movie movie = new Movie(results.getString(1), results.getInt(2), results.getInt(3), results.getString(4), results.getInt(5));
-			userArrayList.add(movie);
+			userArrayList.add(results.getString(1));
 		}
 		dbConstants.connection.prepareStatement("DROP TABLE IF EXISTS moviesRented;").execute();
 		return userArrayList;

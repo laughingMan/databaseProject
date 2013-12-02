@@ -96,14 +96,14 @@ public class ReturnMoviePresenter implements IInnerPanelPresenter {
 
 	private void setAvailableRentals() {
 		// TODO: perform database call here
-		List<Item> availableRentals = null;
+		List<String> availableRentals = null;
 		rentalView.setAvailableRentals(availableRentals);
 
 	}
 
 	private void setCustomerRentals() {
 		// TODO: perform database call here
-		List<Item> customerRentals = null;
+		List<String> customerRentals = null;
 		rentalView.setCustomerRentals(customerRentals);
 	}
 

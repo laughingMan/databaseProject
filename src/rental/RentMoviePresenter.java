@@ -6,6 +6,7 @@ import interfaces.IOkCancelButtonsListener;
 import interfaces.ITableChooserListener;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -16,7 +17,6 @@ import common.UserInfo;
 import common.objects.Address;
 import common.objects.Customer;
 import common.objects.Item;
-
 import customer.CustomerModel;
 import customer.SelectCustomerView;
 
@@ -90,15 +90,23 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 	}
 
 	private void setAvailableRentals() {
-		// TODO: perform database call here
-		List<Item> availableRentals = null;
+		List<String> availableRentals = new ArrayList<String>();
+		try {
+			availableRentals = DatabaseConstants.getPossibleRentalsForUser(selectedCustomer.getCustomerID());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
 		rentalView.setAvailableRentals(availableRentals);
 
 	}
 
 	private void setCustomerRentals() {
-		// TODO: perform database call here
-		List<Item> customerRentals = null;
+		List<String> customerRentals = new ArrayList<String>();
+		try {
+			customerRentals = DatabaseConstants.getCurrentRentalsForUser(selectedCustomer.getCustomerID());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		rentalView.setCustomerRentals(customerRentals);
 	}
 

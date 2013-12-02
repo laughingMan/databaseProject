@@ -17,6 +17,7 @@ import javax.swing.event.ListSelectionListener;
 
 import common.ItemListModel;
 import common.OkCancelView;
+import common.StringListModel;
 import common.objects.Item;
 
 public class MovieRentalView extends OkCancelView {
@@ -28,10 +29,10 @@ public class MovieRentalView extends OkCancelView {
 	private final JLabel accountLabel;
 	private final JLabel membershipLabel;
 	private final JLabel sourceLabel;
-	private final JList<Item> sourceList;
+	private final JList<String> sourceList;
 	private final JScrollPane sourceScrollPane;
 	private final JLabel destLabel;
-	private final JList<Item> destList;
+	private final JList<String> destList;
 	private final JScrollPane destScrollPane;
 	private final JButton addButton;
 	private final JButton removeButton;
@@ -84,8 +85,8 @@ public class MovieRentalView extends OkCancelView {
 		layout.putConstraint(SpringLayout.NORTH, membershipLabel, 5, SpringLayout.SOUTH, accountLabel);
 		add(membershipLabel);
 
-		destList = new JList<Item>();
-		sourceList = new JList<Item>();
+		destList = new JList<String>();
+		sourceList = new JList<String>();
 		sourceList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -149,12 +150,12 @@ public class MovieRentalView extends OkCancelView {
 		accountLabel.setText("Acct #: " + accountID);
 	}
 
-	public void setCustomerRentals(List<Item> rentals) {
-		destList.setModel(new ItemListModel(rentals));
+	public void setCustomerRentals(List<String> rentals) {
+		destList.setModel(new StringListModel(rentals));
 	}
 
-	public void setAvailableRentals(List<Item> availableRentals) {
-		sourceList.setModel(new ItemListModel(availableRentals));
+	public void setAvailableRentals(List<String> availableRentals) {
+		sourceList.setModel(new StringListModel(availableRentals));
 	}
 
 	public void addViewListener(MovieViewListener viewListener) {
