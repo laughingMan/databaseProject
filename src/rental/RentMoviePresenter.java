@@ -27,12 +27,12 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 	private OkCancelView currentView;
 	private final CustomerModel model;
 	private Customer selectedCustomer;
+	private IHomeScreenViewListener homeViewListener;
+	private UserInfo userInfo;
 
 	private static final String RENT_MOVIE_ACTION_TITLE = "Rent Movie";
 	private static final String RENT_MOVIE_OK_BUTTON = "Rent";
 	private static final String RENT_MOVIE_CANCEL_BUTTON = "Back";
-	private IHomeScreenViewListener homeViewListener;
-	private UserInfo userInfo;
 
 	public RentMoviePresenter() {
 		model = new CustomerModel();
@@ -48,20 +48,13 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 		addListeners();
 	}
 
-	private Address getAddressForID(int addressID) {
-		try {
-			userInfo = DatabaseConstants.getUserInfo(selectedCustomer.getFirstName(), selectedCustomer.getLastName());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return new Address(userInfo.getAddress(), userInfo.getCity(), userInfo.getState(), userInfo.getZipCode());
-	}
-
 	private void addListeners() {
 		selectionView.setViewListener(new IOkCancelButtonsListener() {
 			@Override
 			public void okButtonPressed() {
 				setCustomer();
+				setCustomerRentals();
+				setAvailableRentals();
 				currentView = rentalView;
 				homeViewListener.resetInnerPanelView();
 			}
@@ -96,6 +89,19 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 		});
 	}
 
+	private void setAvailableRentals() {
+		// TODO: perform database call here
+		List<Item> availableRentals = null;
+		rentalView.setAvailableRentals(availableRentals);
+
+	}
+
+	private void setCustomerRentals() {
+		// TODO: perform database call here
+		List<Item> customerRentals = null;
+		rentalView.setCustomerRentals(customerRentals);
+	}
+
 	private void setCustomer() {
 		String name = selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName();
 		Address address = getAddressForID(selectedCustomer.getAddressID());
@@ -105,6 +111,15 @@ public class RentMoviePresenter implements IInnerPanelPresenter {
 		String accountID = Integer.toString(selectedCustomer.getAccountID());
 
 		rentalView.setCustomer(name, address1, address2, phoneNumber, accountID);
+	}
+
+	private Address getAddressForID(int addressID) {
+		try {
+			userInfo = DatabaseConstants.getUserInfo(selectedCustomer.getFirstName(), selectedCustomer.getLastName());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new Address(userInfo.getAddress(), userInfo.getCity(), userInfo.getState(), userInfo.getZipCode());
 	}
 
 	@Override

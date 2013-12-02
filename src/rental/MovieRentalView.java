@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import common.ItemListModel;
 import common.OkCancelView;
 import common.objects.Item;
 
@@ -145,6 +147,14 @@ public class MovieRentalView extends OkCancelView {
 		addressLabel2.setText(address2);
 		phoneNumberLabel.setText(phoneNumber);
 		accountLabel.setText("Acct #: " + accountID);
+	}
+
+	public void setCustomerRentals(List<Item> rentals) {
+		destList.setModel(new ItemListModel(rentals));
+	}
+
+	public void setAvailableRentals(List<Item> availableRentals) {
+		sourceList.setModel(new ItemListModel(availableRentals));
 	}
 
 	public void addViewListener(MovieViewListener viewListener) {

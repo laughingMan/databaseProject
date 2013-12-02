@@ -5,11 +5,14 @@ import interfaces.IInnerPanelPresenter;
 import interfaces.IOkCancelButtonsListener;
 import interfaces.ITableChooserListener;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JPanel;
 
+import common.DatabaseConstants;
 import common.OkCancelView;
+import common.UserInfo;
 import common.objects.Address;
 import common.objects.Customer;
 import common.objects.Item;
@@ -23,6 +26,7 @@ public class ReturnMoviePresenter implements IInnerPanelPresenter {
 	private final MovieRentalView rentalView;
 	private OkCancelView currentView;
 	private Customer selectedCustomer;
+	private UserInfo userInfo;
 
 	public ReturnMoviePresenter() {
 		selectionView = new SelectCustomerView();
@@ -41,6 +45,8 @@ public class ReturnMoviePresenter implements IInnerPanelPresenter {
 			@Override
 			public void okButtonPressed() {
 				setCustomer();
+				setCustomerRentals();
+				setAvailableRentals();
 				currentView = rentalView;
 				homeViewListener.resetInnerPanelView();
 			}
@@ -87,9 +93,26 @@ public class ReturnMoviePresenter implements IInnerPanelPresenter {
 		rentalView.setCustomer(name, address1, address2, phoneNumber, accountID);
 	}
 
+	private void setAvailableRentals() {
+		// TODO: perform database call here
+		List<Item> availableRentals = null;
+		rentalView.setAvailableRentals(availableRentals);
+
+	}
+
+	private void setCustomerRentals() {
+		// TODO: perform database call here
+		List<Item> customerRentals = null;
+		rentalView.setCustomerRentals(customerRentals);
+	}
+
 	private Address getAddressForID(int addressID) {
-		// TODO: make database call
-		return new Address("123 Address Ln.", "Testville", "OK", "12345");
+		try {
+			userInfo = DatabaseConstants.getUserInfo(selectedCustomer.getFirstName(), selectedCustomer.getLastName());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new Address(userInfo.getAddress(), userInfo.getCity(), userInfo.getState(), userInfo.getZipCode());
 	}
 
 	@Override
